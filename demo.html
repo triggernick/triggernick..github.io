@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precious Gallery Demo</title>
+
+    <link rel="stylesheet" href="css/preciousgallery-1.0.css" media="all">    
+</head>
+<body>
+    <h1 style="text-align: center">Precious Gallery Demo</h1>
+
+
+    Gallery1
+    <div id="gallery1" class="preciousGallery" 
+        data-gallery='{"style":"horizontal", "padding":10, "gap":20, "thumbnailSize":200,
+         "maxThumbnailDisplay":10, "displayCategories":true, "displaySearch":true, "displayThumbnailText":true, "displayTitle":true}' >
+
+        <div data-thumbnail='{"src":"media/photo1-thumb.jpg", "category":"Category1", "title":"Title1", "description":"long long bla bla bla idem long long bla bla bla idem long long bla bla bla idem long long bla bla bla idem long long bla bla bla idem", "spanX":1, "spanY":1}' >
+            <img src="media/photo1.jpg" alt="photo1">
+        </div>
+        
+        <div data-thumbnail='{"src":"media/photo2-thumb.jpg", "category":"Category4", "title":"Title2", "description":"Description2", "spanX":2, "spanY":1}' >           
+            <img src="media/photo2.jpg" alt="photo2">
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo3-thumb.jpg", "category":"Category3", "title":"Title3", "description":"Description3", "spanX":1, "spanY":2}' >
+            <img src="media/photo3.jpg" alt="photo3">
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo4-thumb.jpg", "category":"Category2", "title":"Title4", "description":"Description4", "spanX":2, "spanY":3}' >
+            <img src="media/photo4.jpg" alt="photo4">
+        </div>
+
+        <div data-thumbnail='{"class":"", "src":"media/photo5-thumb.jpg", "category":"Category2", "title":"Title5", "description":"Description5", "spanX":2, "spanY":2}' >
+            <img src="media/photo5.jpg" alt="photo5">
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo6-thumb.jpg", "category":"Category1", "title":"Title6", "description":"Description6", "spanX":1, "spanY":1}' >
+            <img src="media/photo6.jpg" alt="photo6">
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo7-thumb.jpg", "category":"Category1", "title":"Title7", "description":"Description7", "spanX":1, "spanY":1}' >
+            <img src="media/photo7.jpg" alt="photo7">
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo8-thumb.jpg", "category":"Category3", "title":"Title8", "description":"Description8", "spanX":1, "spanY":1}' >
+            <img src="media/photo8.jpg" alt="photo8">
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo9-thumb.jpg", "category":"Category2", "title":"Title9", "description":"Description9", "spanX":3, "spanY":1}' >
+            <img src="media/photo9.jpg" alt="photo9">            
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo10-thumb.jpg", "category":"Category4", "spanX":2, "spanY":3}' >
+            <img src="media/photo10.jpg" alt="photo10">
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo11-thumb.jpg", "category":"Category3", "title":"Title11", "description":"Description11", "spanX":1, "spanY":1}' >
+            <img src="media/photo11.jpg" alt="photo11">
+        </div>
+
+    </div>
+    
+
+<!--
+    Media Gallery
+    <div id="gallery2" class="preciousGallery" 
+        data-gallery='{"style":"horizontal", "gap":20, "thumbnailSize":400, "maxThumbnailDisplay":10, "displayCategories":true, "displaySearch":true}' >
+
+        <div data-thumbnail='{"src":"https://img.youtube.com/vi/KAqTa7Pkhq8/hqdefault.jpg", "category":"Category4", "title":"Title2", "description":"Description2", "spanX":2, "spanY":1}' >
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/KAqTa7Pkhq8?si=MYsUN8srglrSq0OY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+
+        <div data-thumbnail='{"src":"https://www.dailymotion.com/thumbnail/video/x8nj9vn?playlist=x6lgtp", "category":"Category3", "title":"Title3", "description":"Description3", "spanX":2, "spanY":1}' >
+                <iframe style="width:100%;height:80%;overflow:hidden" frameborder="0" type="text/html" src="https://www.dailymotion.com/embed/video/x8nj9vn" width="100%" height="100%" allowfullscreen title="Dailymotion Video Player" > 
+                </iframe> 
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo10-thumb.jpg", "category":"Category4", "spanX":2, "spanY":3}' >
+            <H1>Hello</H1>
+        </div>
+
+        <div data-thumbnail='{"src":"https://i1.sndcdn.com/artworks-neAeMPnlc89Y7MEI-1QcxOQ-t500x500.jpg", "category":"Category2", "title":"Title9", "description":"Description9", "spanX":2, "spanY":1}' >
+            <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1541194747&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+            </iframe>
+            
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo9-thumb.jpg", "category":"Category2", "title":"Title9", "description":"Description9", "spanX":2, "spanY":1}' >
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d22432.466476663103!2d-73.71161599999999!3d45.3476352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sca!4v1693245520117!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+       
+    </div>
+-->
+
+    Custom Gallery
+    <div id="gallery3" class="preciousGallery" 
+        data-gallery='{"style":"masonry", "gap":20, "thumbnailSize":500, "maxThumbnailDisplay":10, "displayCategories":true, "displaySearch":true}' >
+
+        <div data-thumbnail='{"src":"media/photo9-thumb.jpg", "category":"Category2", "title":"Title9", "description":"Description9", "spanX":2, "spanY":1}' >
+            <img src="media/photo9.jpg" alt="photo9">
+        </div>
+
+        <div data-thumbnail='{"src":"media/photo10-thumb.jpg", "category":"Category4", "title":"Title10", "description":"Description10", "spanX":2, "spanY":1}' >
+            <img src="media/photo10.jpg" alt="photo10">
+        </div>
+    </div>
+
+    
+
+    <script src="js/preciousGallery-1.0.js"></script>
+    <script>
+        preciousGallery.initAll();
+    </script>
+    
+</body>
+</html>
