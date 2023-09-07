@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precious Gallery Demo</title>
+
+    <link rel="stylesheet" href="css/preciousgallery-1.0.css" media="all">  
+    <link rel="stylesheet" href="css/demo.css" media="all">  
+</head>
+<body>
+    <div class="page">
+        <h1>Precious Gallery Demo</h1>
+        <h2>An elegant gallery for valorizing your content.</h2>
+    
+        <div class="gallery-buttons">        
+            <button class="button-flash" type="button" onclick="window.location.href='demo-animals.html'">Animals</button>
+            <button class="button-flash" type="button" onclick="window.location.href='demo-fashion.html'">Fashion</button>
+            <button class="button-flash" type="button" onclick="window.location.href='demo-newspaper.html'">Newspaper</button>
+            <button class="button-flash" type="button" onclick="window.location.href='demo-photography.html'">Photography</button>
+            <button class="button-flash" type="button" onclick="window.location.href='demo-winter.html'">Winter</button>
+        </div>
+    
+        <hr class="solid">
+    
+    <!-- Animals gallery -->
+    <div id="gallery1" class="preciousGallery gallery-animals button-nature" 
+        data-gallery='{"style":"masonry", "thumbnailSize":200, "gap":20, "padding":20, "displayCategories":true, "displaySearch":true, "maxThumbnailDisplay":50 }' >
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-public-domain-pictures-40984-thumb.jpg", "focusPoint":"50% 20%", "category":"Air", "title":"Scarlet Macaw", "description":"The Scarlet Macaw, often dubbed the Feathered Flamenco Dancer of the Jungle, is the avian equivalent of a party animal on a permanent vacation. With its vibrant plumage resembling a tropical sunset and a squawk that can wake the dead (and probably has), this parrot is like the winged ambassador of the fiesta. Forget about dull, monochrome birds the Scarlet Macaw is Mother Nature&#39;s way of saying, Let&#39;s add a splash of salsa to the rainforest! So, grab your maracas and get ready to samba through the colorful world of this flamboyant feathery friend! 💃🌴🦜", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-public-domain-pictures-40984-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-pixabay-69932-thumb.jpg", "focusPoint":"50% 25%", "category":"Earth", "title":"White and Black Cat", "description":"Meet Mr. Whiskers, the feline yin and yang rolled into one purr-fectly comical package! This black and white cat has a personality as contrasting as his fur, and he&#39;s ready to entertain you with his antics that are so wild, they&#39;d make Schrödinger question his life choices. From midnight ninja missions to attempting to catch his own tail (spoiler alert: he hasn&#39;t succeeded yet), Mr. Whiskers is the ultimate cat comedian you never knew you needed in your life. Grab your popcorn, because this furball is about to steal the spotlight and your heart!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-pixabay-69932-mod.jpg" alt="">
+        </div>   
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-richard-verbeek-572861-thumb.jpg", "focusPoint":"50% 45%", "category":"Earth", "title":"Tiger in Shallow", "description":"Ladies and gentlemen, prepare yourselves for a tale so wild, it makes a reality TV show look like a snooze fest! Today, we&#39;re diving headfirst into the misadventures of Tony the Tiger, the most fashion-forward feline to ever strut his stuff in the shallows. Forget about your run-of-the-mill tiger in the jungle – Tony&#39;s got a flair for the shallow life, and he&#39;s about to make a splash like no other! Buckle up, folks, because this striped sensation is about to take you on a hilariously watery ride you won&#39;t soon forget.", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-richard-verbeek-572861-mod.jpg" alt="">
+        </div> 
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-carlos-spitzer-17811-thumb.jpg", "focusPoint":"40% 20%", "category":"Earth", "title":"Black and Green Toucan", "description":"Prepare to meet the most fashion-forward bird in the jungle – the Black and Green Toucan! With feathers as dark as a moonless night and a beak so neon-green it could make a lime jealous, this toucan is the ultimate trendsetter of the avian world. It&#39;s like Mother Nature decided to host a rave in the rainforest and accidentally spilled glow paint on this bird. Get ready to be dazzled by its fabulousness and wonder if it moonlights as a runway model for rainforest fashion week!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-carlos-spitzer-17811-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-zetong-li-1784578-thumb.jpg", "focusPoint":"75% 60%", "category":"Water", "title":"Orange Jellyfish", "description":"Ladies and gentlemen, gather &#39;round for a tale of the ocean&#39;s most flamboyant and citrusy character: the Orange Jellyfish! Picture this underwater marvel as the James Bond of the jellyfish world, dressed to impress in a tuxedo made entirely of orange slices, sporting sunglasses that would make even the coolest cucumber jealous. With a zest for life that&#39;s positively electrifying, this jellyfish isn&#39;t just orange in color; it&#39;s orange in attitude, ready to bring the party to any coral reef. So, grab your snorkels and prepare to laugh your gills off as we dive into the hilarious adventures of the one and only Orange Jellyfish!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-zetong-li-1784578-mod.jpg" alt="">
+        </div>  
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-jared-butler-2538270-thumb.jpg", "focusPoint":"50% 25%", "category":"Earth", "title":"Brown Monkey Holding Baby Monkey", "description":"Ladies and gentlemen, gather &#39;round for a tale of maternal mayhem and monkey business! Picture this: a sassy, stylish, and slightly frazzled female Brown Monkey, strutting through the jungle with her tiny, troublemaking baby monkey clinging to her back like a furry backpack. They say being a mom is a wild adventure, but for this feisty mama, it&#39;s more like a never-ending circus act with a side of banana drama. So, grab your popcorn and get ready to swing into a story that&#39;s bound to leave you howling with laughter and maybe even feeling a little grateful for your own human parenting trials!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-jared-butler-2538270-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-pixabay-2361-thumb.jpg", "focusPoint":"60% 25%", "category":"Earth", "title":"Wolf Lying on Ground", "description":"Meet the ultimate wild party animal of the forest, the Wolf! With a fur coat as stylish as a celebrity on the red carpet and a howl that can make the moon jealous, Wolves are the true rock stars of the animal kingdom. These charismatic creatures roam the wilderness with a swagger that says, &#39;I&#39;m at the top of the food chain, and I know it.&#39; So, grab your binoculars and get ready for a backstage pass to the thrilling world of Wolves, where every day is a howling good time! 🌕🐺🎉", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-pixabay-2361-mod.jpg" alt="">
+        </div>
+        
+        <div data-thumbnail='{"src":"media/Animals/pexels-pixabay-64219-thumb.jpg", "focusPoint":"40% 25%", "category":"Water", "title":"Cute Dolphin", "description":"Meet Dolly the Dolphin, the ocean&#39;s most adorable and playful resident! With her twinkling eyes and a perpetual smile, Dolly is like a living, aquatic teddy bear. She&#39;s a true ambassador of fun in the deep blue sea, where every flip of her flippers is a graceful dance and every squeak from her blowhole is a symphony of joy. Join us as we dive into the enchanting world of Dolly and discover why she&#39;s the undisputed queen of cuteness beneath the waves! 🐬💦", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-pixabay-64219-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-daniyal-ghanavati-110320-thumb.jpg", "focusPoint":"30% 25%", "category":"Air", "title":"Flock of Flying Seagulls", "description":"Picture this: a sunny day at the beach, the sound of waves crashing in the background, and suddenly, a burst of excitement fills the sky as a flock of flying seagulls swoops down like a squadron of feathered acrobats. These cheeky birds with their sharp beaks and playful antics are the unofficial masters of the coastal skies, putting on an aerial show that&#39;s both mesmerizing and comically chaotic. Join me on a whimsical journey as we explore the world of these beachside daredevils and discover the secrets of their soaring adventures!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-daniyal-ghanavati-110320-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-pixabay-34098-thumb.jpg", "focusPoint":"55% 20%", "category":"Earth", "title":"Three Giraffes Under Gray Sky", "description":"Picture this: a trio of towering, graceful creatures, each with a neck that seems to stretch all the way to the sky. These three giraffes are not your average safari stars; they&#39;re the ultimate long-necked squad, the OGs of the animal kingdom&#39;s neck game. Join us on a whimsical adventure as we delve into the world of these charismatic, skyscraping herbivores and uncover the secrets of the three giraffes who are making the savanna their own high-rise paradise!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-pixabay-34098-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-pixabay-36846-thumb.jpg", "focusPoint":"55% 25%", "category":"Air", "title":"Bald Eagle", "description":"Meet the regal ruler of the skies, the bald eagle! With a gleaming white head that shines like a crown and talons as sharp as its wit, this majestic bird is the ultimate symbol of freedom and power. Soaring through the heavens with grace and determination, the bald eagle is not just a bird; it&#39;s a true avian superstar. Buckle up for a journey into the world of this magnificent feathered icon, where strength, beauty, and charisma come together in one incredible package!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-pixabay-36846-mod.jpg" alt="">
+        </div>
+        
+        <div data-thumbnail='{"src":"media/Animals/pexels-alex-andrews-2295744-thumb.jpg", "focusPoint":"45% 25%", "category":"Earth", "title":"Fox Sitting On Ground", "description":"Meet the sly, cunning, and utterly charming master of the forest – the fox! With its fiery orange coat and eyes that sparkle with mischief, the fox is nature&#39;s very own trickster, always ready to outsmart and outwit any challenge that comes its way. Whether it&#39;s pouncing through the underbrush or gracefully leaping over obstacles, the fox&#39;s agility and wit make it a true superstar of the animal kingdom. So, grab your binoculars and join us on a foxy adventure as we uncover the fascinating world of these fantastic creatures!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-alex-andrews-2295744-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-marko-blazevic-1327405-thumb.jpg", "focusPoint":"70% 25%", "category":"Earth", "title":"Flock of Flamingos", "description":"Flamingos, the feathered fashionistas of the avian world, are nature&#39;s very own runway models. With their long, slender legs and vibrant plumage, these fabulous birds are a true spectacle of elegance and flair. But don&#39;t be fooled by their pink-tinted exterior – beneath those trendy feathers lies a fascinating world of unique behaviors and social dynamics that make these birds anything but ordinary. So, let&#39;s dip our toes into the wading wonderland of flamingos and discover the secrets behind their glamorous lives!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-marko-blazevic-1327405-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-george-desipris-792381-thumb.jpg", "focusPoint":"60% 25%", "category":"Earth", "title":"Tiger", "description":"Meet the ultimate feline superstar of the jungle, the one and only, the tiger! With its majestic stripes and a roar that can make even the bravest explorer&#39;s heart skip a beat, the tiger is the undisputed king of the wild. Whether stealthily stalking its prey or taking a leisurely catnap in the shade, this magnificent creature never fails to captivate us with its wild charm. So, grab your binoculars and get ready for a roaring good time as we embark on an adventure into the thrilling world of tigers!", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-george-desipris-792381-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-kelvin-valerio-617278-thumb.jpg", "focusPoint":"50% 40%", "category":"Earth", "title":"Brown Cat With Green Eyes", "description":"Meet the enchanting feline sensation that&#39;s stealing hearts with every graceful pawstep – the brown cat with mesmerizing green eyes! With a coat as rich as dark chocolate and eyes that gleam like emeralds, this charming kitty is the embodiment of elegance and curiosity. Whether it&#39;s batting at a dangling string or simply lounging in a sunbeam, this brown cat with green eyes is the embodiment of feline charisma. Get ready to embark on a purr-fectly delightful adventure with our furry friend! 🐾💚", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-kelvin-valerio-617278-mod.jpg" alt="">
+        </div>
+
+        <div data-thumbnail='{"src":"media/Animals/pexels-pixabay-86596-thumb.jpg", "focusPoint":"40% 45%", "category":"Earth", "title":"Brown and Black Owl Staring", "description":"Imagine stepping into the enchanting world of the forest at twilight, where the ancient trees stretch their limbs towards the starry sky. In this mystical realm, two feathered sentinels stand side by side, their eyes fixed on you with a curious intensity. The brown and black owls, masters of silent flight and wisdom, seem to be sharing a secret between them as they lock their gaze upon your arrival. It&#39;s a moment where the mysteries of the night come alive, and you can&#39;t help but wonder what tales these mesmerizing owls have to tell.", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Animals/pexels-pixabay-86596-mod.jpg" alt="">
+        </div>     
+    </div>
+
+    <hr class="solid">
+
+    <div style="color: white">
+        * Many thanks to the people of Pexels.com for the beautiful images: Adrien Olichon, Alex Andrews, Alexander Grey, Alexandra Maria, Ali Pazani, Anastasiya Gepp, Andrea Yurko, Arianna Jadé, August De Richelieu, Barry Plott, Bestbeels, Carlos Spitzer, Carolyn, Cottonbro Studio, Daniyal Ghanavati, Darius Krause, Dawid Boldys, Designecologist, Diego Henao, Egor Kamelev, Elina Fairytale, Eliza Aldea, Football Wife, Frank Good, Genaro Servín, GeorgeDesipris, Harrison Haines, Hồng Xuân Viên, Ian Beckley, Jadson Thomas, Jared Butler, JessicaLewis, Jill Wellington, Kasia Palitava, Kelvin Valerio, Lil Artsy, Luis Quintero, Lumn, MarcoTrinidad, Marko Blazevic, Markus Spiske, Matheus Bertelli, Michael Noel, Mihai Bența, MinAn, Motional Studio, Nadine Wuchenauer, Ogeday, Omar Houchaimi, Pranav Digwal, RichardVerbeek, Sid Ali, Simon Berger, Timothy Paule II, Todd Trapani, Torben Bühl, Vincent MaJanssen, Vishal Shah, Wallace Chuck, Yan Krukau, Yi Ren, Zetong Li.  
+    </div>
+
+    </div>
+
+    <script src="js/preciousGallery-1.0.js"></script>
+    <script>
+        preciousGallery.initAll();
+    </script>
+    
+</body>
+</html>
