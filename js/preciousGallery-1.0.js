@@ -53,21 +53,21 @@ function initByElement(element) {
         iconsInitialized=true;
     }
 
-    // Build database.
-    const data = addDatabase(element);
+    // Build the gallery attributes.
+    const data = addAttributes(element);
 
     // Create gallery section.
-    createGallery(element, data);
+    createGallery(data);
 
     // Create ligthbox section.
-    createLightbox(element, data);
+    createLightbox(data);
 
     // Create loaded images event handlers.
-    createImgHandler(element);
+    createImgHandler(data);
 
     // Place the thumbnails in the gallery.
-    placeThumbnails(element);
-    
+    placeThumbnails(data);
+        
     // Make the gallery visible.
     element.style.display = 'flex'; 
 }
@@ -80,9 +80,6 @@ function initByElement(element) {
 function deInitByElement(element) {
     // Make the gallery invisible.
     element.style.display = 'none';
-
-    // Remove database section.
-    database.splice(getData(element), 1);
 
     // Remove gallery DOM elements.
     const gallery = element.getElementsByClassName("pg-gallery")[0];
@@ -265,27 +262,24 @@ function getIconElement(groupName, iconId) {
 }
 
 //
-//  Global Database.
+//  Gallery variables.
 //
 
-// Create a database (array) for the current element.
-var database = [];
-
 /**
- * Add the gallery DOM attributes to the database.
+ * Build the gallery DOM variable attributes.
  * @param {element} element - The gallery topmost DOM element.
  * @memberof module:preciousGallery
  */
-function addDatabase(element) {    
-    // build database structure
-    databaseEntry={};
-    databaseEntry['element']=element;
-    databaseEntry['gallery']={};
-    databaseEntry['thumbnail']=[];   
-    databaseEntry['lightbox']={};
+function addAttributes(element) {    
+    // build attributes structure
+    let data={};
+    data.element = element; // save the current topmost element.
+    data.gallery = {}; // Gallery section variables.
+    data.thumbnail = []; // Thumbnail section variables.
+    data.lightbox = {}; // Lightbox section variables.
 
     /*
-     * build gallery attributes database. 
+     * build gallery attributes variables. 
     */
 
     // Parse the data-gallery attribute as JSON.
@@ -307,17 +301,17 @@ function addDatabase(element) {
 
     const validatedGalleryData = {
         style: parsedGalleryData.style || "masonry",
-        padding: (parsedGalleryData.padding>=0) ? parsedGalleryData.padding : 0,
-        gap: (parsedGalleryData.gap>=0) ? parsedGalleryData.gap : 20,
-        thumbnailSize: (parsedGalleryData.thumbnailSize>0) ? parsedGalleryData.thumbnailSize : 300,
-        maxThumbnailDisplay: (parsedGalleryData.maxThumbnailDisplay>=0) ? parsedGalleryData.maxThumbnailDisplay : 0,
+        padding: (parsedGalleryData.padding>=0) ? parseInt(parsedGalleryData.padding) : 0,
+        gap: (parsedGalleryData.gap>=0) ? parseInt(parsedGalleryData.gap) : 0,
+        thumbnailSize: (parsedGalleryData.thumbnailSize>0) ? parseInt(parsedGalleryData.thumbnailSize) : 200,
+        maxThumbnailDisplay: (parsedGalleryData.maxThumbnailDisplay>=0) ? parsedGalleryData.maxThumbnailDisplay : 1000,
         displaySearch: parsedGalleryData.hasOwnProperty("displaySearch") ? parsedGalleryData.displaySearch : true,
         displayCategories: parsedGalleryData.hasOwnProperty("displayCategories") ? parsedGalleryData.displayCategories : true,
         displayThumbnailText: parsedGalleryData.hasOwnProperty("displayThumbnailText") ? parsedGalleryData.displayThumbnailText : true,
         displayTitle: parsedGalleryData.hasOwnProperty("displayTitle") ? parsedGalleryData.displayTitle : false
     };
-    
-    databaseEntry['gallery'] = validatedGalleryData;          
+   
+    data.gallery = validatedGalleryData;          
 
     // build thumbnail database.
     const children = element.children;
@@ -347,18 +341,19 @@ function addDatabase(element) {
             spanY: (parsedthumbnailData.spanY>=0) ? parsedthumbnailData.spanY : 0,
             content: children[i].innerHTML,
             display: true,
-            class: parsedthumbnailData.class || ""
+            class: parsedthumbnailData.class || "",
+            focusPoint: parsedthumbnailData.focusPoint || "50% 50%"
         };
         
-        databaseEntry['thumbnail'].push(validatedThumbnailData); 
+        data.thumbnail.push(validatedThumbnailData); 
     }    
 
     // Add categories.
     let categories = new Set();    
    
-    for (let i = 0; i < databaseEntry['thumbnail'].length; i++) {
+    for (let i = 0; i < data.thumbnail.length; i++) {
         // build a set of categories.
-        const category = databaseEntry['thumbnail'][i]['category'];
+        const category = data.thumbnail[i].category;
         
         if (category && category!="" && category!=strAllCategory) {
             categories.add(category);
@@ -371,43 +366,20 @@ function addDatabase(element) {
     // Sort the array.
     categoriesArray.sort();
 
-    // Save it to the database.
-    databaseEntry["gallery"]["categories"] = categoriesArray;
+    // Save it to the attributes.
+    data.gallery.categories = categoriesArray;
 
     // Add lightbox init values
-    databaseEntry['lightbox']['display']=false;
-    databaseEntry["lightbox"]["zoomLevel"] = 1;
-    databaseEntry["lightbox"]["fullscreen"] = false;
-    databaseEntry['lightbox']['displayMiniatures']=false;
-    databaseEntry['lightbox']['maxZoom']=2;
-    databaseEntry['lightbox']['currentThumbnailId']=0;
-    databaseEntry['lightbox']['minimalDisplay']=false;
-    databaseEntry['lightbox']['timeoutId']=-1;
+    data.lightbox.display = false;
+    data.lightbox.zoomLevel = 1;
+    data.lightbox.fullscreen = false;
+    data.lightbox.displayMiniatures = false;
+    data.lightbox.maxZoom = 2;
+    data.lightbox.currentThumbnailId = 0;
+    data.lightbox.minimalDisplay = false;
+    data.lightbox.timeoutId = -1;
 
-    // Add the current element to the database.
-    database.push(databaseEntry); 
-
-    return databaseEntry;
-}
-
-/**
- * Find the data corresponding to the gallery DOM element.
- * @param {element} element - The gallery topmost DOM element.
- * @returns {object} An object containing the information related to the DOM element.
- * @memberof module:preciousGallery
- */
-function getData(element) {
-    // Find the entry corresponding to element.
-    const index = database.findIndex(entry => entry['element'] === element);
-
-    // Check if the entry was found.
-    if (index !== -1) {        
-        // Entry found: return the entry.
-        return database[index];
-    } else {
-        // No entry found. Throw an error.
-        throw new Error("Element not found.");
-    }
+    return data;
 }
 
 //
@@ -416,11 +388,11 @@ function getData(element) {
 
 /**
  * Create a gallery inside the DOM element.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function createGallery(element, data) {
-//    const data=getData(element); // Get the database information related to element.
+function createGallery(data) {
+    const element = data.element; // The gallery topmost DOM element.
 
     // Insert the top element.
     let topElement = document.createElement('div');
@@ -438,28 +410,28 @@ function createGallery(element, data) {
     divElement.className = 'pg-categories';
 
     // Insert "all" category.
-    data["gallery"]["categorySelected"]=strAllCategory;
+    data.gallery.categorySelected = strAllCategory;
     childElement = document.createElement('button');
         childElement.className = 'pg-button pg-button-selected';
         childElement.innerText = strAllCategory;
         childElement.onclick = function() {
-            thumbnailSelect(element,strAllCategory);            
+            thumbnailSelect(data, strAllCategory);            
         };
 
     divElement.appendChild(childElement);
 
     // Insert other categories.
-    data["gallery"]["categories"].forEach(function(category) {
+    data.gallery.categories.forEach(function(category) {
         childElement = document.createElement('button');
         childElement.className = 'pg-button';
         childElement.innerText = category;
         childElement.onclick = function() {
-            thumbnailSelect(element, category);
+            thumbnailSelect(data, category);
         };
         divElement.appendChild(childElement);
     });
 
-    if(data["gallery"]["displayCategories"]==false) { 
+    if(data.gallery.displayCategories == false) { 
         divElement.style.display = "none";
     }
 
@@ -480,18 +452,18 @@ function createGallery(element, data) {
     childElement.setAttribute("name", "searchText");
     childElement.setAttribute("placeholder", "Search...");
     childElement.addEventListener("input", function() {        
-        thumbnailSelect(element, "")
+        thumbnailSelect(data, "")
     });
     divElement.appendChild(childElement);
 
     // Insert search close icon.
     const iconClose=getIconElement('gallery', 'close');
     iconClose.onclick = function() {            
-        eraseSearchString(element);                              
+        eraseSearchString(data);                              
     };   
     divElement.appendChild(iconClose);
 
-    if(data["gallery"]["displaySearch"]==false) {  
+    if(data.gallery.displaySearch == false) {  
         divElement.style.display = "none";
     }
 
@@ -503,14 +475,14 @@ function createGallery(element, data) {
     divElement = document.createElement('div');
     divElement.className = 'pg-thumbnails';
 
-    for(const thumbnail of data['thumbnail']) {
+    for(const thumbnail of data.thumbnail) {
         // insert thumbnail.
-        const childElement = createThumbnail(element, thumbnail);
+        const childElement = createThumbnail(data, thumbnail);
         divElement.appendChild(childElement);
 
         // Add thumbnail information.
-        thumbnail['display'] = true;
-        thumbnail['element'] = childElement;
+        thumbnail.display = true;
+        thumbnail.element = childElement;
     }
 
     topElement.appendChild(divElement);
@@ -521,21 +493,21 @@ function createGallery(element, data) {
 
 /**
  * Create a thumbnail element.
- * @param {element} element - The gallery topmost DOM element. 
+ * @param {object} data - The gallery global data.
  * @param {object} dataThumbnail - The thumbnail data.
  * @returns The thumbnail DOM element.
  * @memberof module:preciousGallery
  */
-function createThumbnail(element, dataThumbnail) {
-    const data=getData(element); // Get the database information related to element.
+function createThumbnail(data, dataThumbnail) {  
+    const element = data.element; // The gallery topmost DOM element.
 
     // Create thumbnail.
     const thumbnail = document.createElement('div');
-    thumbnail.className = ('pg-thumbnail '+ dataThumbnail['class']).trim();
+    thumbnail.className = ('pg-thumbnail '+ dataThumbnail.class).trim();
 
     // Add click event. When a thumbnail is clicked, it opens the lightbox.
     thumbnail.onclick = function() {            
-        openLightbox(element, dataThumbnail);                       
+        openLightbox(data, dataThumbnail);                       
     };     
 
     // Add inside thumbnail div.
@@ -546,15 +518,16 @@ function createThumbnail(element, dataThumbnail) {
     // Add image.
     const image = document.createElement('img');
     image.className = "pg-thumbnail-image";
-    image.src = dataThumbnail['src'];
+    image.src = dataThumbnail.src;
+    image.style.objectPosition = dataThumbnail.focusPoint;
     inside.appendChild(image);
 
     // Add title.
     const title = document.createElement('div');
     title.className = "pg-thumbnail-title";
-    title.innerText = dataThumbnail['title'];
+    title.innerHTML = dataThumbnail.title;
 
-    if(data['gallery']['displayTitle'] && dataThumbnail['title'] && dataThumbnail['title']!="") {
+    if(data.gallery.displayTitle && dataThumbnail.title && dataThumbnail.title != "") {
         title.style.display="block";
     } else {
         title.style.display="none";
@@ -565,7 +538,7 @@ function createThumbnail(element, dataThumbnail) {
     // Add overlay.
     const overlay = document.createElement('div');
     overlay.className = "pg-thumbnail-overlay";
-//    overlay.innerText="";
+    overlay.innerHTML = dataThumbnail.description;
     inside.appendChild(overlay);
 
     // Add foreground.
@@ -583,7 +556,7 @@ function createThumbnail(element, dataThumbnail) {
  * @param {float} height - The height of the thumbnail (in pixels).
  * @memberof module:preciousGallery
  */
-function resizeThumbnail(thumbnail, width, height) {
+function resizeThumbnail(thumbnail, width, height) {   
     const inside=thumbnail.getElementsByClassName("pg-thumbnail-inside")[0];
     const computedStyle = window.getComputedStyle(inside);
     const image=thumbnail.getElementsByClassName("pg-thumbnail-image")[0];
@@ -614,64 +587,63 @@ function resizeThumbnail(thumbnail, width, height) {
 
 /**
  * Create event handlers for images (when finished loading and when the window is resized).
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function createImgHandler(element) {
-    const data=getData(element); // Get the database information related to element.
+function createImgHandler(data) {
+    const element = data.element; // The gallery topmost DOM element.
 
     // Attach a load event handler to all thumbnail images.
-    for(const thumbnail of data['thumbnail']) {
-        const image=thumbnail['element'].getElementsByClassName("pg-thumbnail-image")[0];
+    for(const thumbnail of data.thumbnail) {
+        const image=thumbnail.element.getElementsByClassName("pg-thumbnail-image")[0];
 
-        image.addEventListener('load', () => {            
-            placeThumbnails(element);
+        image.addEventListener('load', () => {                                
+            placeThumbnails(data);           
           });
     }
 
     // Attach a handler for the window's resize event.
     window.addEventListener('resize', () => {
-        placeThumbnails(element);
+        placeThumbnails(data);
     });
 }
 
 /**
  * PLace the thumbnails inside the gallery according to the configured style.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function placeThumbnails(element) {
-    const data=getData(element); // Get the database information related to element.
-
-    const style=data['gallery']['style']; // Get the configured gallery style.
+function placeThumbnails(data) {
+    const element = data.element; // The gallery topmost DOM element.
+    const style = data.gallery.style; // Get the configured gallery style.
 
     // Select gallery placement function according to style.
     if(style=="masonry") {    
-        placeMasonry(element);  
+        placeMasonry(data);  
     } else if(style=="grid") {
-        placeGrid(element);
+        placeGrid(data);
     } else if(style=="horizontal") {
-        placeHorizontal(element);
+        placeHorizontal(data);
     } else if(style=="mosaic") {
-        placeMosaic(element);
+        placeMosaic(data);
     } else {
         // Masonry is the default style.
-        placeMasonry(element);
+        placeMasonry(data);
     }
 }
 
 /**
  * Place thumbnails according to the masonry style.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function placeMasonry(element) {
-    const data=getData(element); // Get the database information related to element.
-    const thumbnails=element.getElementsByClassName("pg-thumbnails")[0]; // Get the thumbnails DOM element.
+function placeMasonry(data) {
+    const element = data.element; // The gallery topmost DOM element.
+    const thumbnails = element.getElementsByClassName("pg-thumbnails")[0]; // Get the thumbnails DOM element.
 
-    const padding = data['gallery']['padding']; // Padding space inside the gallery (in pixels).
-    const gap = data['gallery']['gap']; // Gap space between thumbnaisl (in pixels).
-    const thumbnailSize = data['gallery']['thumbnailSize']; // Width of thumbnails (in pixels).
+    const padding = data.gallery.padding; // Padding space inside the gallery (in pixels).
+    const gap = data.gallery.gap; // Gap space between thumbnaisl (in pixels).
+    const thumbnailSize = data.gallery.thumbnailSize; // Width of thumbnails (in pixels).
 
     // Number of columns to display.
     let numberColumn=parseInt((thumbnails.offsetWidth-2*padding)/thumbnailSize); 
@@ -681,14 +653,15 @@ function placeMasonry(element) {
     let colX=0; // Column index. 
     let startY = new Array(numberColumn).fill(padding); // The starting position of columns (in pixels).
     let filled = new Array(numberColumn).fill(false); // Keep track if columns have at least one thumbnail in them.
+    let countDisplay=0; // Count number of thumbnails displayed.
 
     // Go through all thumbnails.
-    for(const thumbnail of data['thumbnail']) {  
-        const thumbnailElement=thumbnail['element']; // Get the image DOM element of the thumbnail.
+    for(const thumbnail of data.thumbnail) {  
+        const thumbnailElement=thumbnail.element; // Get the image DOM element of the thumbnail.
         const img=thumbnailElement.getElementsByClassName("pg-thumbnail-image")[0];
         
         // Look if the thumbnail must be displayed and has finished loading.
-        if(thumbnail['display'] && img.complete) {
+        if( thumbnail.display && img.complete && img.offsetHeight>0 && img.offsetWidth > 0 && countDisplay < data.gallery.maxThumbnailDisplay ) {         
             resizeThumbnail(thumbnailElement, colWidth, -1); // Set image width to fit column.
 
             if(filled[colX]) startY[colX]+=gap; // Add gap space if a thumbnail was already on top.
@@ -707,6 +680,8 @@ function placeMasonry(element) {
             if(colX>=numberColumn) {
                 colX=0;
             }
+
+            countDisplay++;
         } else {
             // Hide this thumbnail: either it has been filtered out by the search or it hasn't finished loading.
             thumbnailElement.style.visibility  = "hidden";
@@ -720,16 +695,16 @@ function placeMasonry(element) {
 
 /**
  * Place thumbnails according to the grid style.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function placeGrid(element) {
-    const data=getData(element); // Get the database information related to element.
-    const thumbnails=element.getElementsByClassName("pg-thumbnails")[0]; // Get the thumbnails DOM element.
+function placeGrid(data) {
+    const element = data.element; // The gallery topmost DOM element.
+    const thumbnails = element.getElementsByClassName("pg-thumbnails")[0]; // Get the thumbnails DOM element.
 
-    const padding = data['gallery']['padding']; // Padding space inside the gallery (in pixels).
-    const gap = data['gallery']['gap']; // Gap space between thumbnaisl (in pixels).
-    const thumbnailSize = data['gallery']['thumbnailSize']; // Width of thumbnails (in pixels).
+    const padding = data.gallery.padding; // Padding space inside the gallery (in pixels).
+    const gap = data.gallery.gap; // Gap space between thumbnaisl (in pixels).
+    const thumbnailSize = data.gallery.thumbnailSize; // Width of thumbnails (in pixels).
 
     // Number of columns to display.
     let numberColumn=parseInt((thumbnails.offsetWidth-2*padding)/thumbnailSize);
@@ -739,14 +714,15 @@ function placeGrid(element) {
     let colX=0; // Column index.
     let startY = new Array(numberColumn).fill(padding); // The starting position of columns (in pixels).
     let filled = new Array(numberColumn).fill(false); // Keep track if columns have at least one thumbnail in them.
+    let countDisplay=0; // Count number of thumbnails displayed.
 
     // Go through all thumbnails.
-    for(const thumbnail of data['thumbnail']) {  
-        const thumbnailElement=thumbnail['element']; // Get the image DOM element of the thumbnail.
+    for(const thumbnail of data.thumbnail) {  
+        const thumbnailElement=thumbnail.element; // Get the image DOM element of the thumbnail.
         const img=thumbnailElement.getElementsByClassName("pg-thumbnail-image")[0];
         
         // Look if the thumbnail must be displayed and has finished loading.
-        if(thumbnail['display'] && img.complete) {            
+        if( thumbnail.display && img.complete && img.offsetHeight>0 && img.offsetWidth > 0 && countDisplay < data.gallery.maxThumbnailDisplay ) {            
             resizeThumbnail(thumbnailElement, colWidth, colWidth); // Adjust size of thumbnail.            
 
             if(filled[colX]) startY[colX]+=gap; // Add gap space if a thumbnail was already on top.
@@ -765,6 +741,8 @@ function placeGrid(element) {
             if(colX>=numberColumn) {
                 colX=0;
             }
+
+            countDisplay++;
         } else {
             // Hide this thumbnail: either it has been filtered out by the search or it hasn't finished loading.
             thumbnailElement.style.visibility  = "hidden";
@@ -778,31 +756,33 @@ function placeGrid(element) {
 
 /**
  * Place thumbnails according to the horizontal style.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function placeHorizontal(element) {    
-    const data=getData(element); // Get the database information related to element.
-    const thumbnails=element.getElementsByClassName("pg-thumbnails")[0]; // Get the thumbnails DOM element.
+function placeHorizontal(data) {    
+    const element = data.element; // The gallery topmost DOM element.
+    const thumbnails = element.getElementsByClassName("pg-thumbnails")[0]; // Get the thumbnails DOM element.
 
-    const padding = data['gallery']['padding']; // Padding space inside the gallery (in pixels).
-    const gap = data['gallery']['gap']; // Gap space between thumbnaisl (in pixels).
-    const thumbnailSize = data['gallery']['thumbnailSize']; // Height of thumbnails (in pixels).
+    const padding = data.gallery.padding; // Padding space inside the gallery (in pixels).
+    const gap = data.gallery.gap; // Gap space between thumbnaisl (in pixels).
+    const thumbnailSize = data.gallery.thumbnailSize; // Height of thumbnails (in pixels).
 
     let width=thumbnails.offsetWidth-2*padding; // Width of one row (in pixels).
     let numberRow = 0; // The number of allocated rows.
     let startX = []; // An array containing the starting offset of each row (in pixels).
     let allocateImg = []; // An array containing the thumbnail images that have been allocated in each row.
-    
+    let countDisplay=0; // Count number of thumbnails displayed.
+ 
     // Go through all thumbnails.
-    for(const thumbnail of data['thumbnail']) {  
-        const thumbnailElement=thumbnail['element']; // Get the image DOM element of the thumbnail.
-        const img=thumbnailElement.getElementsByClassName("pg-thumbnail-image")[0];      
+    for(const thumbnail of data.thumbnail) {  
+        const thumbnailElement=thumbnail.element; // Get the image DOM element of the thumbnail.
+        const img=thumbnailElement.getElementsByClassName("pg-thumbnail-image")[0];    
         
         // Look if the thumbnail must be displayed and has finished loading.
-        if(thumbnail['display'] && img.complete) {        
+        if( thumbnail.display && img.complete && img.offsetHeight>0 && img.offsetWidth > 0 && countDisplay < data.gallery.maxThumbnailDisplay ) {  
             const newWidth = (thumbnailSize/thumbnailElement.offsetHeight)*thumbnailElement.offsetWidth;
             const newHeight = thumbnailSize;   
+
             resizeThumbnail(thumbnailElement, newWidth, newHeight); // set the height of the thumbnail.
 
             // Find a spot in a row with free space.
@@ -830,6 +810,8 @@ function placeHorizontal(element) {
 
                 numberRow++;
             }
+
+            countDisplay++;
         } else {
             // Hide this thumbnail: either it has been filtered out by the search or it hasn't finished loading.
             thumbnailElement.style.visibility  = "hidden";
@@ -854,10 +836,8 @@ function placeHorizontal(element) {
             img.style.left = `${padding+left}px`;
             img.style.top = `${padding+top}px`;          
             img.style.visibility  = "visible";
-
-//            console.log(newWidth+" "+newHeight);  
+ 
             resizeThumbnail(img, newWidth, newHeight); // Adjust height of thumbnail.  
-//console.log(newWidth+" "+newHeight); 
         
             // Calculate the position of the next thumbnail on the current row.
             left+=img.offsetWidth+gap;
@@ -873,16 +853,16 @@ function placeHorizontal(element) {
 
 /**
  * Place thumbnails according to the mosaic style.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function placeMosaic(element) {
-    const data=getData(element); // Get the database information related to element.
-    const thumbnails=element.getElementsByClassName("pg-thumbnails")[0]; // Get the thumbnails DOM element.
+function placeMosaic(data) {
+    const element = data.element; // The gallery topmost DOM element.
+    const thumbnails = element.getElementsByClassName("pg-thumbnails")[0]; // Get the thumbnails DOM element.
 
-    const padding = data['gallery']['padding']; // Padding space inside the gallery (in pixels).
-    const gap = data['gallery']['gap']; // Gap space between thumbnaisl (in pixels).
-    const thumbnailSize = data['gallery']['thumbnailSize']; // Size of one block (in pixels).
+    const padding = data.gallery.padding; // Padding space inside the gallery (in pixels).
+    const gap = data.gallery.gap; // Gap space between thumbnaisl (in pixels).
+    const thumbnailSize = data.gallery.thumbnailSize; // Size of one block (in pixels).
 
     let numberRow = 1; // Number of rows in the gallery.
 
@@ -962,15 +942,17 @@ function placeMosaic(element) {
         return {posX, posY};
     }
 
+    let countDisplay=0; // Count number of thumbnails displayed.
+
     // Go through all thumbnails.
-    for(const thumbnail of data['thumbnail']) {  
-        const thumbnailElement=thumbnail['element']; // Get the image DOM element of the thumbnail.
+    for(const thumbnail of data.thumbnail) {  
+        const thumbnailElement=thumbnail.element; // Get the image DOM element of the thumbnail.
         const img=thumbnailElement.getElementsByClassName("pg-thumbnail-image")[0];
         
         // Look if the thumbnail must be displayed and has finished loading.
-        if(thumbnail['display'] && img.complete) {  
-            let spanX = thumbnail['spanX']; // Get the width of the thumbnail (in block units).
-            let spanY = thumbnail['spanY'];  // Get the height of the thumbnail (in block units).
+        if( thumbnail.display && img.complete && img.offsetHeight>0 && img.offsetWidth > 0 && countDisplay < data.gallery.maxThumbnailDisplay ) {  
+            let spanX = thumbnail.spanX; // Get the width of the thumbnail (in block units).
+            let spanY = thumbnail.spanY;  // Get the height of the thumbnail (in block units).
             
             // Reduce the size of the thumbnail if the screen is too small.
             if(spanX>numberCol) spanX=numberCol;
@@ -997,7 +979,10 @@ function placeMosaic(element) {
 
                     found=true;
                 }
-            } while(!found);            
+            } while(!found);  
+            
+            countDisplay++;
+
         } else {
             // Hide this thumbnail: either it has been filtered out by the search or it hasn't finished loading.
             thumbnailElement.style.visibility  = "hidden";
@@ -1010,20 +995,20 @@ function placeMosaic(element) {
 
 /**
  * Select the category of thumbnails to be displayed.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @param {string} category - The category to display.
  * @memberof module:preciousGallery
  */
-function thumbnailSelect(element, category) {
-    const data=getData(element); // Get the database information related to element.
+function thumbnailSelect(data, category) {
+    const element = data.element; // The gallery topmost DOM element.
     const buttons = element.getElementsByClassName("pg-categories")[0].children; // The category buttons DOM element.
     const search = element.getElementsByClassName("pg-search-input")[0].value; // The search box input DOM element.
     
     // Retrieve and save category information.
     if(category=="") {
-        category=data["gallery"]["categorySelected"];
+        category=data.gallery.categorySelected;
     } else {
-        data["gallery"]["categorySelected"]=category;        
+        data.gallery.categorySelected = category;        
     }
 
     // Set category button to selected.
@@ -1038,30 +1023,30 @@ function thumbnailSelect(element, category) {
     }
     
     // Select the thumbnails to be displayed.
-    data["thumbnail"].forEach(function(thumbnail) {
+    data.thumbnail.forEach(function(thumbnail) {
         // Only consider the thumbnails that match the category.
-        if(thumbnail['category']==category || category==strAllCategory) {
+        if(thumbnail.category == category || category == strAllCategory) {
             // Also check if the thumbnail matches the search text.
             if(search=="" || 
-                searchText(search, thumbnail['category']) || 
-                searchText(search, thumbnail['title']) || 
-                searchText(search, thumbnail['description'])) {
+                searchText(search, thumbnail.category) || 
+                searchText(search, thumbnail.title) || 
+                searchText(search, thumbnail.description)) {
                 
                 // There's a match: display this thumbnail.
-                thumbnail['display']=true;
+                thumbnail.display = true;
 
             } else {
                 // The thumbnail doesn't match the search text: do not display.
-                thumbnail['display']=false;
+                thumbnail.display = false;
             }
         } else {
             // The thumbnail doesn't match the category: do not display.
-            thumbnail['display']=false;
+            thumbnail.display = false;
         }
     })
 
     // Reposition the display of thumbnails.
-    placeThumbnails(element);
+    placeThumbnails(data);
 }
 
 /**
@@ -1095,10 +1080,12 @@ function searchText(searchStr, text) {
 
 /**
  * Erase the content of the search input box.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function eraseSearchString(element) {
+function eraseSearchString(data) {
+    const element = data.element; // The gallery topmost DOM element.
+
     // Get the search input box element.
     const searchInput = element.getElementsByClassName("pg-search-input")[0];
 
@@ -1106,7 +1093,7 @@ function eraseSearchString(element) {
     searchInput.value="";
 
     // Refresh the display of thumbnails.
-    thumbnailSelect(element, "");
+    thumbnailSelect(data, "");
 }
 
 //
@@ -1115,11 +1102,11 @@ function eraseSearchString(element) {
 
 /**
  * Create a lightbox.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function createLightbox(element, data) {
-//    const data=getData(element); // Get the database information related to element.
+function createLightbox(data) {
+    const element = data.element; // The gallery topmost DOM element.
 
     let topElement = document.createElement('div'); // The top DOM element of the lightbox.
     topElement.className = 'pg-lightbox';  
@@ -1149,53 +1136,53 @@ function createLightbox(element, data) {
     // Zoom out icon.
     const iconZoomOut=getIconElement('lightbox', 'zoomOut');
     iconZoomOut.onclick = function() {
-        lightboxZoom(element, -1, true);      
-        updateLightbox(element);      
+        lightboxZoom(data, -1, true);      
+        updateLightbox(data);      
     };
     divElement.appendChild(iconZoomOut);
 
     // Zoom in icon.
     const iconZoomIn=getIconElement('lightbox', 'zoomIn');
     iconZoomIn.onclick = function() {
-        lightboxZoom(element, 1, true);         
-        updateLightbox(element);   
+        lightboxZoom(data, 1, true);         
+        updateLightbox(data);   
     };
     divElement.appendChild(iconZoomIn);
 
     // Fullscreen icon.
     const iconFullScreen=getIconElement('lightbox', 'fullscreen');
     iconFullScreen.onclick = function() {            
-        enterFullscreen(element, topElement);                              
+        enterFullscreen(data, topElement);                              
     };   
     divElement.appendChild(iconFullScreen);
 
     // Fullscreen exit icon.
     const iconFullScreenExit=getIconElement('lightbox', 'fullscreenExit');
     iconFullScreenExit.onclick = function() {                 
-        leaveFullscreen(element);                          
+        leaveFullscreen(data);                          
     };   
     divElement.appendChild(iconFullScreenExit);
 
     // Handle the fullscreen change event.
     document.addEventListener("fullscreenchange", function () {        
         if (!document.fullscreenElement) {           
-            data['lightbox']['fullscreen']=false;
+            data.lightbox.fullscreen = false;
             
-            updateLightbox(element);
+            updateLightbox(data);
         }
     });
 
     // Toggle miniatures icon.
     const iconMiniatures = getIconElement('lightbox', 'miniatureIcon');
     iconMiniatures.onclick = function() {            
-        toggleMiniatures(element);                          
+        toggleMiniatures(data);                          
     };     
     divElement.appendChild(iconMiniatures);
 
     // Toggle download icon.
     const iconDownload = getIconElement('lightbox', 'download');
     iconDownload.onclick = function() {                 
-        downloadImage(element);                          
+        downloadImage(data);                          
     };   
     divElement.appendChild(iconDownload);
 
@@ -1223,7 +1210,7 @@ function createLightbox(element, data) {
     // Insert close button.
     const iconClose=getIconElement('lightbox', 'close');
     iconClose.onclick = function() {            
-        closeLightbox(element);                       
+        closeLightbox(data);                       
     };   
 
     headerElement.appendChild(iconClose);
@@ -1234,20 +1221,20 @@ function createLightbox(element, data) {
 
     const iconLeftScroll = getIconElement('lightbox', 'leftScroll');
     iconLeftScroll.onclick = function() {                 
-        LightboxScroll(element, -1);                          
+        LightboxScroll(data, -1);                          
     };   
     divElement.appendChild(iconLeftScroll);
 
     const iconRightScroll = getIconElement('lightbox', 'rightScroll');
     iconRightScroll.onclick = function() {                 
-        LightboxScroll(element, 1);                          
+        LightboxScroll(data, 1);                          
     };  
     divElement.appendChild(iconRightScroll);
 
     modalElement.appendChild(divElement);    
 
     // Insert content.     
-    modalElement.appendChild(createLightboxContent(element));
+    modalElement.appendChild(createLightboxContent(data));
 
     // Insert miniatures.
     divElement = document.createElement('div');
@@ -1275,11 +1262,11 @@ function createLightbox(element, data) {
     modalElement.appendChild(divElement);
     
     // Timer for detecting user inactivity.
-    lightboxStartTimer(element);
+    lightboxStartTimer(data);
     
     // Event listener for detecting user activity.
     document.addEventListener("mousemove", () => {
-        lightboxActivity(element);
+        lightboxActivity(data);
     });
 
     // Insert top element into the gallery.
@@ -1288,12 +1275,12 @@ function createLightbox(element, data) {
 
 /**
  * Create the content div element of the lightbox.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @returns {element} The DOM element containing the content of the lightbox.
  * @memberof module:preciousGallery
  */
-function createLightboxContent(element) {
-    const data=getData(element); // Get the database information related to element.
+function createLightboxContent(data) {
+    const element = data.element; // The gallery topmost DOM element.
 
     let isDragging = false;  // Is the content image being dragged?
     let startX, startY; // Starting position of the drag event.
@@ -1311,7 +1298,7 @@ function createLightboxContent(element) {
     // Handle mouse down event.
     childElement.addEventListener('mousedown', (event) => {  
         // Only activate dragging mode if the zoom level is greater than 1.
-        if(data['lightbox']['zoomLevel'] > 1) {
+        if(data.lightbox.zoomLevel > 1) {
             event.preventDefault();  
 
             isDragging = true;     
@@ -1330,7 +1317,7 @@ function createLightboxContent(element) {
     // Handle mouse up event.
     childElement.addEventListener('mouseup', () => {   
         // Only check this event if the zoom level is greater than 1.
-        if(data['lightbox']['zoomLevel'] > 1) {
+        if(data.lightbox.zoomLevel > 1) {
             isDragging = false;    
             childElement.style.cursor = 'grab';               
         }
@@ -1367,14 +1354,14 @@ function createLightboxContent(element) {
         // Check scrolling direction.
         if (event.deltaY > 0) {
             // Scrolling down.
-            lightboxZoom(element, -1, true);
+            lightboxZoom(data, -1, true);
         } else if (event.deltaY < 0) {
             // Scrolling up.
-            lightboxZoom(element, 1, true);
+            lightboxZoom(data, 1, true);
         }
 
         // Refresh the display.
-        updateLightbox(element, "");
+        updateLightbox(data, "");
     });
 
     // Handle touch start event.
@@ -1393,7 +1380,7 @@ function createLightboxContent(element) {
         topStart = parseInt(childElement.style.top);
 
         // Activity has been detected.
-        lightboxActivity(element);
+        lightboxActivity(data);
     });
 
     // Handle touch move event.
@@ -1411,16 +1398,16 @@ function createLightboxContent(element) {
         let xDiff = xUp - xDown;
         let yDiff = yUp - yDown;
 
-        if(data['lightbox']['zoomLevel'] == 1) {        
+        if(data.lightbox.zoomLevel == 1) {        
             // Get the most significant displacement.
             if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
                 // Check swipe direction.
                 if ( xDiff > 0 ) {
                     // Right swipe.
-                    LightboxScroll(element, -1);
+                    LightboxScroll(data, -1);
                 } else {
                     // Left swipe.
-                    LightboxScroll(element, 1);
+                    LightboxScroll(data, 1);
                 }                       
             } else {
                 // Check swipe direction.
@@ -1465,71 +1452,76 @@ function createLightboxContent(element) {
     return divElement;
 }
 
+let keydownHandler; // Keyboard event handler
+
 /**
  * Show the lightbox.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @param {object} thumbnail - A database entry corresponding to the thumbnail to show.
  * @memberof module:preciousGallery
  */
-function openLightbox (element, thumbnail) {  
-    const data=getData(element); // Get the database information related to element.
+function openLightbox (data, thumbnail) {  
+    const element = data.element; // The gallery topmost DOM element.
 
     document.body.style.overflow = 'hidden'; // Hide the scrollbar
 
     // Set the zoom level to normal.
-    lightboxZoom(element, 1, false);
+    lightboxZoom(data, 1, false);
 
     // Keep track of the lightbox open state.
-    data['lightbox']['display']=true;
+    data.lightbox.display = true;
 
     // Handle keyboard buttons.    
-    document.addEventListener('keydown', lightboxKeyDown);
-    document.myParam = element;
+    keydownHandler = (event) => {
+        lightboxKeyDown(data, event);
+    }
+
+    document.addEventListener("keydown", keydownHandler);
 
     // Refresh the display.
-    updateLightbox(element, thumbnail);
+    updateLightbox(data, thumbnail);
 }
 
 /**
  * Hide the ligthbox. Thus returning to the gallery.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function closeLightbox(element) {
-    const data=getData(element); // Get the database information related to element.
+function closeLightbox(data) {
+    const element = data.element; // The gallery topmost DOM element.
 
     document.body.style.overflow = 'auto'; // Show the scrollbar again.
 
     // If in fullscreen mode, leave this mode.
-    if(data['lightbox']['fullscreen']) {
-        leaveFullscreen(element);
+    if(data.lightbox.fullscreen) {
+        leaveFullscreen(data);
     }
 
     // Keep track of the lightbox close state.
-    data['lightbox']['display']=false;
+    data.lightbox.display = false;
 
     // Set the zoom level to normal.
-    lightboxZoom(element, 1, false);
+    lightboxZoom(data, 1, false);
 
     // Remove handling of keyboard buttons.
-    document.removeEventListener('keydown', lightboxKeyDown);
+    document.removeEventListener('keydown', keydownHandler);
 
     // Refresh the display.
-    updateLightbox(element);
+    updateLightbox(data);
 }
 
 /**
  * Update the content of the lightbox.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @param {object} thumbnail - A database entry corresponding to the thumbnail to show.
  * @memberof module:preciousGallery
  */
-function updateLightbox(element, thumbnail) {
-    const data=getData(element); // Get the database information related to element.
+function updateLightbox(data, thumbnail) {
+    const element = data.element; // The gallery topmost DOM element.
 
     // Select display mode.
     const lightbox = element.getElementsByClassName("pg-lightbox")[0];
-    if(data['lightbox']['display']==false) {        
+    if(data.lightbox.display == false) {        
         lightbox.style.display="none";
 
         return;
@@ -1543,7 +1535,7 @@ function updateLightbox(element, thumbnail) {
     const divText = lightbox.getElementsByClassName("pg-lightbox-text")[0]; // The text description element.
 
     // Select elements to display.
-    if(data['lightbox']['minimalDisplay']) 
+    if(data.lightbox.minimalDisplay) 
     {
         // Minimal mode. This occurs after the ligthbox has been inactive after a period of time.
         divHeader.style.opacity = 0;
@@ -1555,7 +1547,7 @@ function updateLightbox(element, thumbnail) {
         divDirection.style.opacity = 1;
 
         // Only display text description when content isn't zoomed in.
-        if(data['lightbox']['zoomLevel'] == 1) {
+        if(data.lightbox.zoomLevel == 1) {
             divText.style.opacity = 1; 
         } else {
             divText.style.opacity = 0;
@@ -1564,10 +1556,10 @@ function updateLightbox(element, thumbnail) {
 
     // Update content element.
     if(thumbnail) {
-        data['lightbox']['currentThumbnailId'] = thumbnail['id'];  // Keep track of the thumbnail currently selected.
+        data.lightbox.currentThumbnailId = thumbnail.id;  // Keep track of the thumbnail currently selected.
         
         // Insert content.
-        const thumbnailContent=thumbnail['content'];
+        const thumbnailContent=thumbnail.content;
 
         const lightboxContent = lightbox.getElementsByClassName("pg-lightbox-content")[0];
         lightboxContent.innerHTML = thumbnailContent;
@@ -1575,27 +1567,27 @@ function updateLightbox(element, thumbnail) {
         // If no content has been provided, use the thumbnail instead.
         if(lightboxContent.childElementCount==0) {            
             const img=document.createElement('img');            
-            img.src = thumbnail['src'];    
+            img.src = thumbnail.src;    
 
             lightboxContent.appendChild(img);      
         }
 
         // Insert Title and description.
         divText.style.display="none";
-        if(data['gallery']['displayThumbnailText']) {
-            if( (thumbnail['title'].length != 0) || 
-                (thumbnail['description'].length != 0) ) {
+        if(data.gallery.displayThumbnailText) {
+            if( (thumbnail.title.length != 0) || 
+                (thumbnail.description.length != 0) ) {
                 const title=lightbox.getElementsByClassName("pg-lightbox-title")[0];
-                title.innerText = thumbnail['title'];
-                if(thumbnail['title'].length>0) {
+                title.innerText = thumbnail.title;
+                if(thumbnail.title.length>0) {
                     title.style.display="block";
                 } else {
                     title.style.display="none";
                 }
 
                 const description=lightbox.getElementsByClassName("pg-lightbox-description")[0];
-                description.innerText = thumbnail['description'];
-                if(thumbnail['description'].length>0) {
+                description.innerText = thumbnail.description;
+                if(thumbnail.description.length>0) {
                     description.style.display="block";
                 } else {
                     description.style.display="none";
@@ -1611,14 +1603,14 @@ function updateLightbox(element, thumbnail) {
         const miniatures=lightbox.getElementsByClassName("pg-lightbox-miniatures")[0]; // Get miniatures element.
         miniatures.innerHTML=""; // Erase all miniatures.
 
-        const thumbnails=data['thumbnail']; // Access database info on thumbails.
+        const thumbnails=data.thumbnail; // Access database info on thumbails.
         let count=0; // Count the number of displayed miniatures.
         let index=0; // Index of a miniature.
 
         // Create and insert miniatures one by one.
         for(currentThumbnail of thumbnails) {
             // Check if the miniature must be displayed.
-            if(currentThumbnail['display'])  {
+            if(currentThumbnail.display)  {
                 // Insert the miniature.
                 const miniature = document.createElement('img');
                 miniature.className = 'pg-lightbox-miniature';
@@ -1627,16 +1619,16 @@ function updateLightbox(element, thumbnail) {
                 count++; // Keep track of number of miniatures inserted.
 
                 // Append a special CSS class to the selected miniature.
-                if(currentThumbnail['id']==thumbnail['id'])  {
+                if(currentThumbnail.id == thumbnail.id)  {
                     index=count;
                     miniature.classList.add("pg-lightbox-miniature-selected");
                 }
 
                 // Handle mouse click event on all miniatures.
-                const id = currentThumbnail['id'];
+                const id = currentThumbnail.id;
                 miniature.onclick = function() {             
                     // Select the miniature for display when the user clicks on it.                  
-                    selectMiniature(element, id);                          
+                    selectMiniature(data, id);                          
                 };  
 
                 miniatures.appendChild(miniature);
@@ -1653,7 +1645,7 @@ function updateLightbox(element, thumbnail) {
     const fullscreenExit = element.getElementsByClassName("pg-lightbox-fullscreenExit")[0];
 
     // No need to show the fullscreen icon when already in fullscreen.
-    if(data['lightbox']['fullscreen']) {
+    if(data.lightbox.fullscreen) {
         // Hide fullscreen icon.
         fullscreen.style.display="none";
         fullscreenExit.style.display="inline";
@@ -1667,7 +1659,7 @@ function updateLightbox(element, thumbnail) {
     const miniatures = element.getElementsByClassName("pg-lightbox-miniatures")[0];
 
     // Check if the miniature must be displayed.
-    if(data['lightbox']['displayMiniatures']) {
+    if(data.lightbox.displayMiniatures) {
         // Display miniature.
         miniatures.style.visibility = "visible";
 
@@ -1686,7 +1678,7 @@ function updateLightbox(element, thumbnail) {
 
     // Update zoom content.
     const content = element.getElementsByClassName("pg-lightbox-content")[0];
-    const currentZoom = data['lightbox']['zoomLevel'];
+    const currentZoom = data.lightbox.zoomLevel;
     const left = parseInt(content.style.left);
     const top = parseInt(content.style.top);
 
@@ -1710,7 +1702,7 @@ function updateLightbox(element, thumbnail) {
     }
 
     const zoomIn = element.getElementsByClassName("pg-lightbox-zoomIn")[0];
-    if(currentZoom>=data['lightbox']['maxZoom']) {
+    if(currentZoom>=data.lightbox.maxZoom) {
         zoomIn.style.visibility="hidden";
     } else {
         zoomIn.style.visibility="visible";
@@ -1735,17 +1727,17 @@ function updateLightbox(element, thumbnail) {
     }
 
     // Start the timer to decide when to go into minimal display mode after inactivity.
-    lightboxStartTimer(element);
+    lightboxStartTimer(data);
 }
 
 /**
  * Show the topElement content in full screen mode.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @param {element} lightboxElement - The lightbox topmost DOM element.
  * @memberof module:preciousGallery
  */
-function enterFullscreen (element, lightboxElement) {
-    const data=getData(element); // Get the database information related to element.
+function enterFullscreen (data, lightboxElement) {
+    const element = data.element; // The gallery topmost DOM element.
 
     // Check if the browser supports fullscreen
     if (lightboxElement.requestFullscreen) {
@@ -1759,19 +1751,19 @@ function enterFullscreen (element, lightboxElement) {
     }
 
     // Keep track of fullscreen state.
-    data['lightbox']['fullscreen']=true;
+    data.lightbox.fullscreen = true;
 
     // Refresh the display.
-    updateLightbox(element);
+    updateLightbox(data);
 }
 
 /**
  * Go back to original screen size
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function leaveFullscreen(element) {
-    const data=getData(element); // Get the database information related to element.
+function leaveFullscreen(data) {
+    const element = data.element; // The gallery topmost DOM element.
 
     // Check if the browser supports exit fullscreen
     if (document.exitFullscreen) {
@@ -1785,24 +1777,24 @@ function leaveFullscreen(element) {
     }     
 
     // Keep track of fullscreen state.
-    data['lightbox']['fullscreen']=false;
+    data.lightbox.fullscreen = false;
 
     // Refresh the display.
-    updateLightbox(element);
+    updateLightbox(data);
 }
 
 /**
  * Zoom lightbox content DOM element.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @param {integer} zoomLevel - The zoom level of the content.
  * @param {boolean} relative - True is the zoom level is in relative units or false if using absolute units.
  * @memberof module:preciousGallery
  */
-function lightboxZoom(element, zoomLevel, relative) {
-    const data=getData(element); // Get the database information related to element.
+function lightboxZoom(data, zoomLevel, relative) {
+    const element = data.element; // The gallery topmost DOM element.
 
     // Update zoom level.
-    let currentZoom = data['lightbox']['zoomLevel'];
+    let currentZoom = data.lightbox.zoomLevel;
     
     if(relative) {     
         // In relative mode the zoom level is added the old one.           
@@ -1814,77 +1806,77 @@ function lightboxZoom(element, zoomLevel, relative) {
 
     // Saturate zoom level.
     if(currentZoom < 1) currentZoom=1;
-    if(currentZoom > data['lightbox']['maxZoom']) currentZoom=data['lightbox']['maxZoom'];
+    if(currentZoom > data.lightbox.maxZoom) currentZoom = data.lightbox.maxZoom;
 
     // Keep track of the zoom level.
-    data['lightbox']['zoomLevel']=currentZoom; 
+    data.lightbox.zoomLevel = currentZoom; 
 }
 
 /**
  * Show/hide miniatures.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function toggleMiniatures(element) {
-    const data=getData(element); // Get the database information related to element.
-    
+function toggleMiniatures(data) {  
+    const element = data.element; // The gallery topmost DOM element.
+
     // Toggle miniatures display state.
-    data['lightbox']['displayMiniatures'] = !data['lightbox']['displayMiniatures'];
+    data.lightbox.displayMiniatures = !data.lightbox.displayMiniatures;
 
     // Refresh the display.
-    updateLightbox(element);
+    updateLightbox(data);
 }
 
 /**
  * Select a miniature to display full size.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @param {integer} id - The id of the miniature.
  * @memberof module:preciousGallery
  */
-function selectMiniature(element, id) {
-    const data=getData(element); // Get the database information related to element.
+function selectMiniature(data, id) {
+    const element = data.element; // The gallery topmost DOM element.
 
     // Reset the zoom level to 1.
-    lightboxZoom(element, 1, false);
+    lightboxZoom(data, 1, false);
 
     // Refresh the display.
-    updateLightbox(element, data['thumbnail'][id]);
+    updateLightbox(data, data.thumbnail[id]);
 }
 
 /**
  * Handle lightbox key down events.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function lightboxKeyDown(event) {
-    const element = event.currentTarget.myParam; // Get the topmost element of the gallery. This is passed as an optional parameter to an event.
-    const data=getData(element); // Get the database information related to element.
+function lightboxKeyDown(data, event) {
+    const element = data.element; // The gallery topmost DOM element.
 
     // Signal that activity was detected.
-    lightboxActivity(element);          
+    lightboxActivity(data);          
 
     // Scroll in the direction according to the key pressed.
     if (event.key === 'ArrowLeft') {
-        LightboxScroll(element, -1);
+        LightboxScroll(data, -1);
     } else if (event.key === 'ArrowRight') {
-        LightboxScroll(element, 1);
+        LightboxScroll(data, 1);
     }
 }
 
 /**
  * Scroll to the next thumbnail in the lightbox.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @param {integer} step - The number of thumbnails to scroll. Positive numbers for scrolling to the right. Negative numbers for scrolling to the left.
  * @memberof module:preciousGallery
  */
-function LightboxScroll(element, step) {
+function LightboxScroll(data, step) {
+    const element = data.element; // The gallery topmost DOM element.
+
     // Check validity of the step parameter.
     if (typeof step !== 'number' || !Number.isInteger(step) || step === 0) {
         throw new Error('Parameter must be a non-zero integer.');
     }
 
-    const data=getData(element); // Get the database information related to element.
-    let id=data['lightbox']['currentThumbnailId']; // The current thumbnail ID.
+    let id=data.lightbox.currentThumbnailId; // The current thumbnail ID.
     let nextId=id; // The next thumbnail ID to display.
     let quit=false; // Should we quit looping?
 
@@ -1893,8 +1885,8 @@ function LightboxScroll(element, step) {
         id+=step; // Go in the chosen direction.
 
         // Check if the ID is valid.
-        if (id>=0 && id<data['thumbnail'].length) {    
-            if(data['thumbnail'][id]['display']) {
+        if (id>=0 && id<data.thumbnail.length) {    
+            if(data.thumbnail[id].display) {
                 nextId=id;
                 quit=true;
             }            
@@ -1905,19 +1897,20 @@ function LightboxScroll(element, step) {
     }
 
     // Reset the zoom level to 1.
-    lightboxZoom(element, 1, false);
+    lightboxZoom(data, 1, false);
 
     // Refresh the display.
-    updateLightbox(element, data['thumbnail'][nextId]);
+    updateLightbox(data, data.thumbnail[nextId]);
 }
 
 /**
  * Initiate an image download.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function downloadImage(element) {
-    const data=getData(element); // Get the database information related to element.
+function downloadImage(data) {
+    const element = data.element; // The gallery topmost DOM element.
+
     const imageDiv = element.getElementsByClassName("pg-lightbox-content")[0].children[0]; // The DOM element containing the image.
     const imageUrl = imageDiv.src; // URL of the image.
 
@@ -1937,47 +1930,43 @@ function downloadImage(element) {
 
 /**
  * Start the idle timer in the lightbox.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function lightboxStartTimer(element) {
-    const data=getData(element); // Get the database information related to element.
+function lightboxStartTimer(data) {
+    const element = data.element; // The gallery topmost DOM element.
 
     // Initialize and start the timer.
-    if(data['lightbox']['timeoutId'] != -1)  clearTimeout(data['lightbox']['timeoutId']);
-    data['lightbox']['timeoutId'] = setTimeout(() => {lightboxInactivity(element);}, 3500);
+    if(data.lightbox.timeoutId != -1)  clearTimeout(data.lightbox.timeoutId);
+    data.lightbox.timeoutId = setTimeout(() => {lightboxInactivity(data);}, 3500);
 }
 
 /**
  * Called each time activity is detected in the lightbox.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function lightboxActivity(element) {
-    const data=getData(element); // Get the database information related to element.
-
+function lightboxActivity(data) {
     // Restart the timer.
-    lightboxStartTimer(element);
+    lightboxStartTimer(data);
 
     // Go back into full display mode if previously in minimal mode.
-    if(data['lightbox']['minimalDisplay']) {
-        data['lightbox']['minimalDisplay']=false;
-        updateLightbox(element);
+    if(data.lightbox.minimalDisplay) {
+        data.lightbox.minimalDisplay = false;
+        updateLightbox(data);
     }  
 }
 
 /**
  * Called each time the lightbox has been inactive for a time period.
- * @param {element} element - The gallery topmost DOM element.
+ * @param {object} data - The gallery global data.
  * @memberof module:preciousGallery
  */
-function lightboxInactivity(element) {
-    const data=getData(element); // Get the database information related to element.
-
+function lightboxInactivity(data) {
     // Go into minimal display mode.
-    if(data['lightbox']['minimalDisplay']==false) {
-        data['lightbox']['minimalDisplay']=true;
-        updateLightbox(element);
+    if(data.lightbox.minimalDisplay == false) {
+        data.lightbox.minimalDisplay = true;
+        updateLightbox(data);
     }    
 }
 
@@ -1987,7 +1976,7 @@ function lightboxInactivity(element) {
 
 /**
  * Generate a random number from 0 to n.
- * @param {float} n - The highest number that can be generated. 
+ * @param {float} n - The range of the number to be generated. 
  * @returns {float} A random number from 0 to n. 
  * @memberof module:preciousGallery
  */

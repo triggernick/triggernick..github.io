@@ -35,29 +35,6 @@
     gap: 10px; 
 }
 
-.preciousGallery .pg-button {  
-    display: flex;
-    align-items: center;
-    background-color: white;
-    color: black;
-    font-size: 1rem;
-    padding: 5px;
-    border: 2px solid black;
-    border-radius: 10px;
-    transition-duration: 0.4s;
-}
-
-.preciousGallery .pg-button:hover {
-    background-color: #555555;
-    color: white;
-}
-
-.preciousGallery .pg-button-selected {
-    background-color: black;
-    color: white;
-    border: 2px solid black;
-}
-
 .preciousGallery .pg-searchbox {
     display: flex;   
     flex-wrap: wrap;
@@ -95,7 +72,6 @@
     width:100%;
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 2px solid black;  
     box-sizing: content-box;
 }
 
@@ -104,17 +80,12 @@
     transition: transform 1s, top 1s, left 1s;
 }
 
-.preciousGallery .pg-thumbnail:hover {
-    transform: scale(1.15);
-    z-index: 1;
-}
-
 .preciousGallery .pg-thumbnail-inside {
     position: relative;
-    display: inline-block;
+    display: block;
     box-sizing: border-box;
 
-    border: 20px solid #ccc;
+/*    border: 20px solid #ccc;*/
 /*     
     padding: 10px;
     background-color: white;
@@ -139,7 +110,14 @@
     box-sizing: border-box;
 }
 
-.preciousGallery .pg-thumbnail-overlay {                 
+.preciousGallery .pg-thumbnail-overlay { 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    display: none;  
+}
+
+.preciousGallery .pg-thumbnail-more {                 
     position: absolute;
     top: 50%;
     left: 50%;
