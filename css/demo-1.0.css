@@ -1,0 +1,93 @@
+/**
+ * Precious Gallery demo CSS source by Trigger Nick.
+ * 
+ * Commercial License.
+ * 
+ * Copyright (c) 2023 TriggerNick
+ * 
+ */
+body {
+    background: url("../media/cool-background.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+.page {
+    max-width: 1024px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 20px;
+    background: url("../media/brushed-alum.png");
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;   
+    color: white;   
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.5rem;   
+    color: white;   
+}
+
+.gallery-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#gallery-description {
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+}
+
+hr.solid {
+    border-top: 3px solid #bbb;
+    margin: 20px;
+}
+
+
+/* Fashion Gallery */
+
+.gallery-fashion .pg-searchbox {
+    background-color:white;
+}
+
+.gallery-fashion .pg-thumbnail-title {
+    font-family: 'Brush Script MT', cursive;    
+    font-size: 1.5rem;   
+}
+
+/* Newspaper Gallery */
+
+.gallery-newspaper .pg-thumbnail-image {
+    border-radius: 10px;
+}
+
+.gallery-newspaper .pg-thumbnail-title {
+    font-size: 1.25rem;
+    border-radius: 10px;
+}
+
+/* Photography Gallery */
+
+.gallery-photography .pg-gallery-search {
+    fill: white;
+}
+
+.gallery-photography .pg-gallery-close {
+    fill: white;
+}
