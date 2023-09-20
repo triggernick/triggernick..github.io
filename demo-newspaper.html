@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precious Gallery Demo</title>
+    <title>Precious Gallery Newspaper Demo</title>
 
-    <link rel="stylesheet" href="css/preciousgallery-1.0.css" media="all">  
-    <link rel="stylesheet" href="css/demo.css" media="all">  
+    <link rel="stylesheet" href="css/preciousgallery-1.0.min.css" media="all">  
+    <link rel="stylesheet" href="css/demo-1.0.min.css" media="all">    
 </head>
 <body>
     <div class="page">
-        <h1>Precious Gallery Demo</h1>
-        <h2>An elegant gallery for valorizing your content.</h2>
+        <h1>Precious Gallery Newspaper Demo</h1>
+        <h2>Elevate Your Content with Elegance.</h2>
     
-        <div class="gallery-buttons">        
-            <button class="button-flash" type="button" onclick="window.location.href='demo-animals.html'">Animals</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-fashion.html'">Fashion</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-newspaper.html'">Newspaper</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-photography.html'">Photography</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-winter.html'">Winter</button>
+        <div class="gallery-buttons pg-button-flash">        
+            <button class="pg-button" type="button" onclick="window.location.href='demo-animals.html'">Animals</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-fashion.html'">Fashion</button>
+            <button class="pg-button pg-button-selected" type="button" onclick="window.location.href='demo-newspaper.html'">Newspaper</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-photography.html'">Photography</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-winter.html'">Winter</button>
         </div>
     
         <hr class="solid">
     
     <!-- Newspaper gallery -->
-    <div id="gallery3" class="preciousGallery gallery-newspaper button-iris" 
+    <div id="gallery3" class="preciousGallery gallery-newspaper pg-background-worldmap pg-thumbnail-zoom pg-button-iris" 
             data-gallery='{"style":"mosaic", "thumbnailSize":200, "gap":20, "padding":20, "displayCategories":true, "displaySearch":true, "displayTitle":true }' >
 
         <div data-thumbnail='{"src":"media/Newspaper/pexels-august-de-richelieu-4427627-thumb.jpg", "focusPoint":"40% 20%", "category":"National", "title":"Courtroom Drama Unfolds: High-Stakes Trial Grips the Nation", "description":"In a plot twist that could rival the juiciest courtroom dramas on TV, a high-stakes trial is currently captivating the entire nation! Legal eagles and curious citizens alike are flocking to the courthouse to witness the jaw-dropping showdown between the plaintiff, who claims their pet parrot is a genius linguist, and the defendant, who insists the parrot merely knows a few colorful phrases. With witnesses squawking on the stand and feathers flying in every direction, it&#39;s safe to say this trial is truly for the birds! Stay tuned as this feathered fiasco continues to ruffle feathers and keep the nation on the edge of their seats.", "spanX":2, "spanY":1}' >
@@ -35,11 +35,11 @@
             <img loading="lazy" src="media/Newspaper/pexels-football-wife-1618269-mod.jpg" alt="">
         </div>
 
-        <div data-thumbnail='{"src":"media/Newspaper/pexels-genaro-servín-763398-thumb.jpg", "category":"Weather", "title":"Rainy Days Bring Joy: Locals Celebrate Much-Needed Downpour", "description":"The sun-soaked town of Sunshineville erupted in spontaneous celebration today as raindrops finally graced the parched earth. With umbrellas twirling and rain boots wading through puddles, residents rejoiced in the sweet relief of a long-awaited downpour. Kids giggled as they tried to catch raindrops on their tongues, while adults traded their sunscreen for raincoats. One local even declared, &#39;Who needs a spa day when you&#39;ve got a natural mud bath right in your backyard?&#39; It seems that in Sunshineville, rainy days are the ultimate cause for joy and a refreshing break from the relentless sun.", "spanX":1, "spanY":1}' >
-            <img loading="lazy" src="media/Newspaper/pexels-genaro-servín-763398-mod.jpg" alt="">
+        <div data-thumbnail='{"src":"media/Newspaper/pexels-genaro-servin-763398-thumb.jpg", "category":"Weather", "title":"Rainy Days Bring Joy: Locals Celebrate Much-Needed Downpour", "description":"The sun-soaked town of Sunshineville erupted in spontaneous celebration today as raindrops finally graced the parched earth. With umbrellas twirling and rain boots wading through puddles, residents rejoiced in the sweet relief of a long-awaited downpour. Kids giggled as they tried to catch raindrops on their tongues, while adults traded their sunscreen for raincoats. One local even declared, &#39;Who needs a spa day when you&#39;ve got a natural mud bath right in your backyard?&#39; It seems that in Sunshineville, rainy days are the ultimate cause for joy and a refreshing break from the relentless sun.", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Newspaper/pexels-genaro-servin-763398-mod.jpg" alt="">
         </div>
 
-        <div data-thumbnail='{"src":"media/Newspaper/pexels-markus-spiske-102152-thumb.jpg", "category":"Finance", "title":"Financial Wizards Predict Bull Market Surge in Upcoming Quarter", "description":"Hold onto your hats and grab your magic wands, because the financial wizards have spoken! In a dazzling display of forecasting prowess, these mystical money mavens predict a bull market surge in the upcoming quarter. They&#39;ve dusted off their crystal balls, consulted their trusty tarot cards, and even chanted some ancient incantations to conjure this financial prophecy. It seems that the mystical forces of economic growth are aligning, and investors are about to ride a wave of prosperity. So, get ready to dance with the bulls, because the wizards have spoken, and it&#39;s time for some enchanting gains! 🧙‍♂️🔮💰", "spanX":1, "spanY":2}' >
+        <div data-thumbnail='{"src":"media/Newspaper/pexels-markus-spiske-102152-thumb.jpg", "class":"pg-thumbnail-hot", "category":"Finance", "title":"Financial Wizards Predict Bull Market Surge in Upcoming Quarter", "description":"Hold onto your hats and grab your magic wands, because the financial wizards have spoken! In a dazzling display of forecasting prowess, these mystical money mavens predict a bull market surge in the upcoming quarter. They&#39;ve dusted off their crystal balls, consulted their trusty tarot cards, and even chanted some ancient incantations to conjure this financial prophecy. It seems that the mystical forces of economic growth are aligning, and investors are about to ride a wave of prosperity. So, get ready to dance with the bulls, because the wizards have spoken, and it&#39;s time for some enchanting gains! 🧙‍♂️🔮💰", "spanX":1, "spanY":2}' >
             <img loading="lazy" src="media/Newspaper/pexels-markus-spiske-102152-mod.jpg" alt="">
         </div>
 
@@ -51,7 +51,7 @@
             <img loading="lazy" src="media/Newspaper/pexels-pixabay-248547-mod.jpg" alt="">
         </div>
 
-        <div data-thumbnail='{"src":"media/Newspaper/pexels-wallace-chuck-2834917-thumb.jpg", "category":"Sports", "title":"Sports Extravaganza: Athletes Set New Records in Thrilling Showdown", "description":"In a Sports Extravaganza that had fans on the edge of their seats, athletes from around the world unleashed their inner superstars, setting new records and creating a spectacle for the ages. From gravity-defying slam dunks that would make Michael Jordan jealous to swimmers slicing through the water like human torpedoes, it was a heart-pounding showdown of epic proportions. Even the spectators got in on the action, attempting to break records for the most popcorn consumed in a single game! In the end, records were shattered, adrenaline levels soared, and a new era of sports greatness was born. If you missed this thrilling spectacle, you missed out on a sporting extravaganza for the ages!", "spanX":1, "spanY":2}' >
+        <div data-thumbnail='{"src":"media/Newspaper/pexels-wallace-chuck-2834917-thumb.jpg", "focusPoint":"75% 25%", "category":"Sports", "title":"Sports Extravaganza: Athletes Set New Records in Thrilling Showdown", "description":"In a Sports Extravaganza that had fans on the edge of their seats, athletes from around the world unleashed their inner superstars, setting new records and creating a spectacle for the ages. From gravity-defying slam dunks that would make Michael Jordan jealous to swimmers slicing through the water like human torpedoes, it was a heart-pounding showdown of epic proportions. Even the spectators got in on the action, attempting to break records for the most popcorn consumed in a single game! In the end, records were shattered, adrenaline levels soared, and a new era of sports greatness was born. If you missed this thrilling spectacle, you missed out on a sporting extravaganza for the ages!", "spanX":1, "spanY":2}' >
             <img loading="lazy" src="media/Newspaper/pexels-wallace-chuck-2834917-mod.jpg" alt="">
         </div>
 
@@ -67,8 +67,8 @@
             <img loading="lazy" src="media/Newspaper/pexels-sid-ali-2028885-mod.jpg" alt="">
         </div>
 
-        <div data-thumbnail='{"src":"media/Newspaper/pexels-torben-bühl-3623114-thumb.jpg", "category":"World", "title":"Infernos Raging On: Firefighters Battle Blazes Amidst Adversity", "description":"In a world where flames dance like they&#39;re auditioning for a fiery reality show, our fearless firefighters are the true stars! With their trusty hoses, determined spirits, and a sprinkling of superhero vibes, they&#39;re battling blazes like it&#39;s a high-stakes game of hide-and-seek. These modern-day heroes aren&#39;t just fighting fire; they&#39;re taming dragons with a dose of courage and a dash of swagger. As we cheer them on from the safety of our popcorn-stocked living rooms, let&#39;s remember to send them a virtual high-five and some good vibes. After all, they&#39;re the reason we can enjoy s&#39;mores without the risk of turning into one! 🚒🔥💪 #FlameFightersRock", "spanX":1, "spanY":2}' >
-            <img loading="lazy" src="media/Newspaper/pexels-torben-bühl-3623114-mod.jpg" alt="">
+        <div data-thumbnail='{"src":"media/Newspaper/pexels-torben-buhl-3623114-thumb.jpg", "category":"World", "title":"Infernos Raging On: Firefighters Battle Blazes Amidst Adversity", "description":"In a world where flames dance like they&#39;re auditioning for a fiery reality show, our fearless firefighters are the true stars! With their trusty hoses, determined spirits, and a sprinkling of superhero vibes, they&#39;re battling blazes like it&#39;s a high-stakes game of hide-and-seek. These modern-day heroes aren&#39;t just fighting fire; they&#39;re taming dragons with a dose of courage and a dash of swagger. As we cheer them on from the safety of our popcorn-stocked living rooms, let&#39;s remember to send them a virtual high-five and some good vibes. After all, they&#39;re the reason we can enjoy s&#39;mores without the risk of turning into one! 🚒🔥💪 #FlameFightersRock", "spanX":1, "spanY":2}' >
+            <img loading="lazy" src="media/Newspaper/pexels-torben-buhl-3623114-mod.jpg" alt="">
         </div>
 
         <div data-thumbnail='{"src":"media/Newspaper/pexels-vincent-ma-janssen-2698473-thumb.jpg", "focusPoint":"65% 20%", "category":"National", "title":"Manifestations for Change: Citizens Rise Up for a Brighter Tomorrow", "description":" In a delightful twist of fate, a local town&#39;s annual pie-eating contest turned into a delicious protest for change! Armed with pies and picket signs, residents of Pieville rallied together to demand better infrastructure and cleaner streets. As whipped cream flew through the air, they chanted, &#39;No more potholes, more pie-holes!&#39; The mayor, caught off guard with a mouthful of apple pie, promised swift action, and a new tradition was born: the Pieville Pie-Protest, where the community fights for change one scrumptious bite at a time.", "spanX":1, "spanY":2}' >
@@ -88,12 +88,12 @@
     <hr class="solid">
 
     <div style="color: white">
-        * Many thanks to the people of Pexels.com for the beautiful images: Adrien Olichon, Alex Andrews, Alexander Grey, Alexandra Maria, Ali Pazani, Anastasiya Gepp, Andrea Yurko, Arianna Jadé, August De Richelieu, Barry Plott, Bestbeels, Carlos Spitzer, Carolyn, Cottonbro Studio, Daniyal Ghanavati, Darius Krause, Dawid Boldys, Designecologist, Diego Henao, Egor Kamelev, Elina Fairytale, Eliza Aldea, Football Wife, Frank Good, Genaro Servín, GeorgeDesipris, Harrison Haines, Hồng Xuân Viên, Ian Beckley, Jadson Thomas, Jared Butler, JessicaLewis, Jill Wellington, Kasia Palitava, Kelvin Valerio, Lil Artsy, Luis Quintero, Lumn, MarcoTrinidad, Marko Blazevic, Markus Spiske, Matheus Bertelli, Michael Noel, Mihai Bența, MinAn, Motional Studio, Nadine Wuchenauer, Ogeday, Omar Houchaimi, Pranav Digwal, RichardVerbeek, Sid Ali, Simon Berger, Timothy Paule II, Todd Trapani, Torben Bühl, Vincent MaJanssen, Vishal Shah, Wallace Chuck, Yan Krukau, Yi Ren, Zetong Li.  
+        * Many thanks to the people of Pexels.com for the beautiful images: Adrien Olichon, Alex Andrews, Alexander Grey, Alexandra Maria, Ali Pazani, Anastasiya Gepp, Andrea Yurko, Arianna Jadé, August De Richelieu, Barry Plott, Bestbeels, Carlos Spitzer, Carolyn, Cottonbro Studio, Daniyal Ghanavati, Darius Krause, Dawid Boldys, Designecologist, Diego Henao, Egor Kamelev, Elina Fairytale, Eliza Aldea, Football Wife, Frank Good, Genaro Servín, GeorgeDesipris, Harrison Haines, Hồng Xuân Viên, Ian Beckley, Jadson Thomas, Jared Butler, JessicaLewis, Jill Wellington, Kasia Palitava, Kelvin Valerio, Lil Artsy, Luis Quintero, Lumn, MarcoTrinidad, Marko Blazevic, Markus Spiske, Matheus Bertelli, Michael Noel, Mihai Bența, MinAn, Motional Studio, Nadine Wuchenauer, Ogeday, Omar Houchaimi, Pranav Digwal, RichardVerbeek, Sid Ali, Simon Berger, Timothy Paule II, Todd Trapani, Torben Bühl, Vincent MaJanssen, Vishal Shah, Wallace Chuck, Yan Krukau, Yi Ren, Zetong Li.
     </div>
 
     </div>
 
-    <script src="js/preciousGallery-1.0.js"></script>
+    <script src="js/preciousGallery-1.0.min.js"></script>
     <script>
         preciousGallery.initAll();
     </script>

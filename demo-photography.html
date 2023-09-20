@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precious Gallery Demo</title>
+    <title>Precious Gallery Photography Demo</title>
 
-    <link rel="stylesheet" href="css/preciousgallery-1.0.css" media="all">  
-    <link rel="stylesheet" href="css/demo.css" media="all">  
+    <link rel="stylesheet" href="css/preciousgallery-1.0.min.css" media="all">  
+    <link rel="stylesheet" href="css/demo-1.0.min.css" media="all">    
 </head>
 <body>
     <div class="page">
-        <h1>Precious Gallery Demo</h1>
-        <h2>An elegant gallery for valorizing your content.</h2>
+        <h1>Precious Gallery Photography Demo</h1>
+        <h2>Elevate Your Content with Elegance.</h2>
     
-        <div class="gallery-buttons">        
-            <button class="button-flash" type="button" onclick="window.location.href='demo-animals.html'">Animals</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-fashion.html'">Fashion</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-newspaper.html'">Newspaper</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-photography.html'">Photography</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-winter.html'">Winter</button>
+        <div class="gallery-buttons pg-button-flash">        
+            <button class="pg-button" type="button" onclick="window.location.href='demo-animals.html'">Animals</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-fashion.html'">Fashion</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-newspaper.html'">Newspaper</button>
+            <button class="pg-button pg-button-selected" type="button" onclick="window.location.href='demo-photography.html'">Photography</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-winter.html'">Winter</button>
         </div>
     
         <hr class="solid">
     
     <!-- Photography gallery -->
-    <div id="gallery4" class="preciousGallery gallery-photography button-photography" 
+    <div id="gallery4" class="preciousGallery gallery-photography pg-background-hyperspace pg-thumbnail-bw-zoom-color pg-button-3d" 
             data-gallery='{"style":"masonry", "thumbnailSize":200, "gap":0, "padding":40, "displayCategories":true, "displaySearch":true }' >
 
         <div data-thumbnail='{"src":"media/Photography/pexels-adrien-olichon-3137043-thumb.jpg", "category":"Buildings", "title":"Modern Building With Steel And Glass Panel Ceiling", "description":"", "spanX":1, "spanY":1}' >
@@ -55,8 +55,8 @@
             <img loading="lazy" src="media/Photography/pexels-frank-good-2881003-mod.jpg" alt="">
         </div>      
 
-        <div data-thumbnail='{"src":"media/Photography/pexels-hồng-xuân-viên-2869318-thumb.jpg", "category":"People", "title":"Toddler in Yellow Top and Hat Holding Fruit", "description":"", "spanX":1, "spanY":1}' >
-            <img loading="lazy" src="media/Photography/pexels-hồng-xuân-viên-2869318-mod.jpg" alt="">
+        <div data-thumbnail='{"src":"media/Photography/pexels-hong-xuan-vien-2869318-thumb.jpg", "category":"People", "title":"Toddler in Yellow Top and Hat Holding Fruit", "description":"", "spanX":1, "spanY":1}' >
+            <img loading="lazy" src="media/Photography/pexels-hong-xuan-vien-2869318-mod.jpg" alt="">
         </div>
 
         <div data-thumbnail='{"src":"media/Photography/pexels-jadson-thomas-1535775-thumb.jpg", "category":"Buildings", "title":"Graffiti on White Concrete Building", "description":"", "spanX":1, "spanY":1}' >
@@ -101,7 +101,7 @@
 
     </div>
 
-    <script src="js/preciousGallery-1.0.js"></script>
+    <script src="js/preciousGallery-1.0.min.js"></script>
     <script>
         preciousGallery.initAll();
     </script>

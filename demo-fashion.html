@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precious Gallery Demo</title>
+    <title>Precious Gallery Fashion Demo</title>
 
-    <link rel="stylesheet" href="css/preciousgallery-1.0.css" media="all">  
-    <link rel="stylesheet" href="css/demo.css" media="all">  
+    <link rel="stylesheet" href="css/preciousgallery-1.0.min.css" media="all">  
+    <link rel="stylesheet" href="css/demo-1.0.min.css" media="all">    
 </head>
 <body>
     <div class="page">
-        <h1>Precious Gallery Demo</h1>
-        <h2>An elegant gallery for valorizing your content.</h2>
+        <h1>Precious Gallery Fashion Demo</h1>
+        <h2>Elevate Your Content with Elegance.</h2>
     
-        <div class="gallery-buttons">        
-            <button class="button-flash" type="button" onclick="window.location.href='demo-animals.html'">Animals</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-fashion.html'">Fashion</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-newspaper.html'">Newspaper</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-photography.html'">Photography</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-winter.html'">Winter</button>
+        <div class="gallery-buttons pg-button-flash">        
+            <button class="pg-button" type="button" onclick="window.location.href='demo-animals.html'">Animals</button>
+            <button class="pg-button pg-button-selected" type="button" onclick="window.location.href='demo-fashion.html'">Fashion</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-newspaper.html'">Newspaper</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-photography.html'">Photography</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-winter.html'">Winter</button>
         </div>
     
         <hr class="solid">
     
     <!-- Fashion gallery -->
-    <div id="gallery2" class="preciousGallery gallery-fashion button-fashion" 
+    <div id="gallery2" class="preciousGallery gallery-fashion pg-thumbnail-glow pg-background-polkadots pg-button-candy" 
             data-gallery='{"style":"mosaic", "thumbnailSize":200, "gap":20, "padding":20, "displayCategories":true, "displaySearch":true, "displayTitle":true }' >
 
         <div data-thumbnail='{"src":"media/Fashion/pexels-alexandra-maria-336372-thumb.jpg", "focusPoint":"50% 50%", "category":"Shoes", "title":"Shoes And Bag", "description":"", "spanX":1, "spanY":1}' >
@@ -39,19 +39,19 @@
             <img loading="lazy" src="media/Fashion/pexels-andrea-yurko-982585-mod.jpg" alt="">
         </div>
 
-        <div data-thumbnail='{"src":"media/Fashion/pexels-designecologist-1328545-thumb.jpg", "focusPoint":"80% 40%", "class":"thumbnail-hearts", "category":"", "title":"", "description":"", "spanX":3, "spanY":2}' >
+        <div data-thumbnail='{"src":"media/Fashion/pexels-designecologist-1328545-thumb.jpg", "focusPoint":"80% 40%", "class":"pg-thumbnail-hearts", "category":"", "title":"", "description":"", "spanX":3, "spanY":2}' >
             <img loading="lazy" src="media/Fashion/pexels-designecologist-1328545-mod.jpg" alt="">
         </div>
 
-        <div data-thumbnail='{"src":"media/Fashion/pexels-arianna-jadé-4754648-thumb.jpg", "focusPoint":"40% 25%", "category":"Hairstyle", "title":"Stylish Afro hair", "description":"", "spanX":1, "spanY":2}' >
-            <img loading="lazy" src="media/Fashion/pexels-arianna-jadé-4754648-mod.jpg" alt="">
+        <div data-thumbnail='{"src":"media/Fashion/pexels-arianna-jade-4754648-thumb.jpg", "focusPoint":"40% 25%", "category":"Hairstyle", "title":"Stylish Afro hair", "description":"", "spanX":1, "spanY":2}' >
+            <img loading="lazy" src="media/Fashion/pexels-arianna-jade-4754648-mod.jpg" alt="">
         </div>
 
         <div data-thumbnail='{"src":"media/Fashion/pexels-bestbe-models-2170387-thumb.jpg", "focusPoint":"50% 25%", "category":"Makeup", "title":"Face Paintings", "description":"", "spanX":1, "spanY":1}' >
             <img loading="lazy" src="media/Fashion/pexels-bestbe-models-2170387-mod.jpg" alt="">
         </div>
 
-        <div data-thumbnail='{"src":"media/Fashion/pexels-cottonbro-studio-9154696-thumb.jpg", "focusPoint":"50% 20%", "category":"Dress", "title":"White Dress", "description":"", "spanX":1, "spanY":2}' >
+        <div data-thumbnail='{"src":"media/Fashion/pexels-cottonbro-studio-9154696-thumb.jpg", "focusPoint":"50% 20%", "category":"Pants", "title":"White Suit", "description":"", "spanX":1, "spanY":2}' >
             <img loading="lazy" src="media/Fashion/pexels-cottonbro-studio-9154696-mod.jpg" alt="">
         </div>
 
@@ -101,7 +101,7 @@
 
     </div>
 
-    <script src="js/preciousGallery-1.0.js"></script>
+    <script src="js/preciousGallery-1.0.min.js"></script>
     <script>
         preciousGallery.initAll();
     </script>

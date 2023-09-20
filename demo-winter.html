@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precious Gallery Demo</title>
+    <title>Precious Gallery Winter Demo</title>
 
-    <link rel="stylesheet" href="css/preciousgallery-1.0.css" media="all">  
-    <link rel="stylesheet" href="css/demo.css" media="all">  
+    <link rel="stylesheet" href="css/preciousgallery-1.0.min.css" media="all">  
+    <link rel="stylesheet" href="css/demo-1.0.min.css" media="all">  
 </head>
 <body>
     <div class="page">
-        <h1>Precious Gallery Demo</h1>
-        <h2>An elegant gallery for valorizing your content.</h2>
+        <h1>Precious Gallery Winter Demo</h1>
+        <h2>Elevate Your Content with Elegance.</h2>
     
-        <div class="gallery-buttons">        
-            <button class="button-flash" type="button" onclick="window.location.href='demo-animals.html'">Animals</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-fashion.html'">Fashion</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-newspaper.html'">Newspaper</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-photography.html'">Photography</button>
-            <button class="button-flash" type="button" onclick="window.location.href='demo-winter.html'">Winter</button>
+        <div class="gallery-buttons pg-button-flash">        
+            <button class="pg-button" type="button" onclick="window.location.href='demo-animals.html'">Animals</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-fashion.html'">Fashion</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-newspaper.html'">Newspaper</button>
+            <button class="pg-button" type="button" onclick="window.location.href='demo-photography.html'">Photography</button>
+            <button class="pg-button pg-button-selected" type="button" onclick="window.location.href='demo-winter.html'">Winter</button>
         </div>
     
         <hr class="solid">
     
     <!-- Winter gallery -->
-    <div id="gallery5" class="preciousGallery gallery-winter" 
+    <div id="gallery5" class="preciousGallery gallery-winter pg-background-snow pg-thumbnail-inset" 
             data-gallery='{"style":"mosaic", "thumbnailSize":200, "gap":40, "padding":20, "displayCategories":false, "displaySearch":true }' >
 
         <div data-thumbnail='{"src":"media/Winter/pexels-barry-plott-753502-thumb.jpg", "focusPoint":"50% 20%", "category":"", "title":"", "description":"", "spanX":1, "spanY":2}' >
@@ -71,8 +71,8 @@
             <img loading="lazy" src="media/Winter/pexels-lil-artsy-1722258-mod.jpg" alt="">
         </div>
 
-        <div data-thumbnail='{"src":"media/Winter/pexels-mihai-bența-10635810-thumb.jpg", "focusPoint":"40% 40%", "category":"", "title":"", "description":"", "spanX":1, "spanY":2}' >
-            <img loading="lazy" src="media/Winter/pexels-mihai-bența-10635810-mod.jpg" alt="">
+        <div data-thumbnail='{"src":"media/Winter/pexels-mihai-benta-10635810-thumb.jpg", "focusPoint":"40% 40%", "category":"", "title":"", "description":"", "spanX":1, "spanY":2}' >
+            <img loading="lazy" src="media/Winter/pexels-mihai-benta-10635810-mod.jpg" alt="">
         </div>
 
         <div data-thumbnail='{"src":"media/Winter/pexels-nadine-wuchenauer-1726770-thumb.jpg", "category":"", "title":"", "description":"", "spanX":1, "spanY":1}' >
@@ -109,7 +109,7 @@
 
     </div>
 
-    <script src="js/preciousGallery-1.0.js"></script>
+    <script src="js/preciousGallery-1.0.min.js"></script>
     <script>
         preciousGallery.initAll();
     </script>
